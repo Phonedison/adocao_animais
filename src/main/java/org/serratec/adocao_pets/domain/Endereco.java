@@ -3,7 +3,6 @@ package org.serratec.adocao_pets.domain;
 import org.serratec.adocao_pets.dto.EnderecoDTO;
 import org.springframework.beans.BeanUtils;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,23 +27,18 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     @NotBlank(message = "O RUA não pode estar em branco")
     private String rua;
 
-    @Column
     @NotBlank(message = "O NUMERO não pode estar em branco")
     private String numero;
 
-    @Column
     @NotBlank(message = "O BAIRRO não pode estar em branco")
     private String bairro;
 
-    @Column
     @NotBlank(message = "O ESTADO não pode estar em branco")
     private String estado;
 
-    @Column
     @NotBlank(message = "O CEP não pode estar em branco")
     @Pattern(regexp = "\\d{5}-\\d{3}", message = "O CEP deve estar no formato 00000-000")
     private String cep;

@@ -1,5 +1,8 @@
 package org.serratec.adocao_pets.dto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.serratec.adocao_pets.domain.Animal;
 import org.serratec.adocao_pets.enumerated.Especie;
 import org.serratec.adocao_pets.enumerated.Sexo;
@@ -31,7 +34,15 @@ public class AnimalDTO {
     // referencia a ENUM status da adocao
     private StatusAdocao statusAdocao;
 
+    private List<CaracteristicaDTO> caracteristicas;
+
     public AnimalDTO(Animal animal) {
         BeanUtils.copyProperties(animal, this);
+
+        if (animal.getCarateristicas() != null) {
+            this.caracteristicas = animal.getCarateristicas().stream()
+                    .map(c -> new CaracteristicaDTO(c))
+                    .collect(Collectors.toList());
+        }
     }
 }

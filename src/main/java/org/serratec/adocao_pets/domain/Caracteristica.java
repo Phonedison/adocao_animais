@@ -1,9 +1,8 @@
 package org.serratec.adocao_pets.domain;
 
-import org.serratec.adocao_pets.dto.CaracteristicaAnimalDTO;
+import org.serratec.adocao_pets.dto.CaracteristicaDTO;
 import org.springframework.beans.BeanUtils;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,22 +15,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "caracteristica_animal")
+@Table(name = "caracteristica")
 @Getter // cria os métodos GETs
 @Setter // cria os métodos SETs
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class CaracteristicaAnimal {
+public class Caracteristica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @NotBlank(message = "O NOME não pode estar em branco")
+    @NotBlank(message = "O campo não pode estar em branco")
     private String nome; // exemplo: "Castrado", "Vacinado", "Dócil", "Brincalhão", "Precisa de quintal";
 
-    public CaracteristicaAnimal(CaracteristicaAnimalDTO caracteristica) {
+    private String descricao;
+
+    public Caracteristica(CaracteristicaDTO caracteristica) {
         BeanUtils.copyProperties(caracteristica, this);
     }
 }
