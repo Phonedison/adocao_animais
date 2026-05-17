@@ -51,11 +51,6 @@ public class Pessoa {
     @UniqueElements(message = "Campo duplicado!")
     private String cpf;
 
-    // referencia a ENUM tipoPessoa
-    @NotBlank(message = "O campo não pode estar em branco")
-    @Enumerated(EnumType.STRING)
-    private TipoPessoa tipoPessoa;
-
     // referencia a classe Endereco
     @NotBlank(message = "O campo não pode estar em branco")
     @ManyToOne // pode ser ligação 1:1 ou N:1

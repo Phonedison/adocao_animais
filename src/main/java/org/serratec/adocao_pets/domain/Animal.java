@@ -19,7 +19,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -54,24 +53,21 @@ public class Animal {
     private String descricao; // sobre o pet
 
     // referencia a ENUM especie
-    @OneToOne
     @NotBlank(message = "O campo não pode estar em branco")
     @Enumerated(EnumType.STRING)
     private Especie especie;
 
     // referencia a ENUM tamanho
-    @OneToOne
     @NotBlank(message = "O campo não pode estar em branco")
     @Enumerated(EnumType.STRING)
     private Tamanho tamanho;
-    // referencia a ENUM sexo
 
-    @OneToOne
+    // referencia a ENUM sexo
     @NotBlank(message = "O campo não pode estar em branco")
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
+
     // referencia a ENUM status da adocao
-    @OneToOne
     @NotBlank(message = "O campo não pode estar em branco")
     @Enumerated(EnumType.STRING)
     private StatusAdocao statusAdocao;
