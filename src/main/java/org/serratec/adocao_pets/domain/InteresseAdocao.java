@@ -47,8 +47,4 @@ public class InteresseAdocao {
     private StatusProcesso statusProcesso;
 
     private String observacoes;
-
-    public InteresseAdocao(InteresseAdocaoDTO interesse) {
-        BeanUtils.copyProperties(interesse, this);
-    }
 }

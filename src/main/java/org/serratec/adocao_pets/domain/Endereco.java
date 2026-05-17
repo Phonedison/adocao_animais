@@ -43,7 +43,4 @@ public class Endereco {
     @Pattern(regexp = "\\d{5}-\\d{3}", message = "O CEP deve estar no formato 00000-000")
     private String cep;
 
-    public Endereco(EnderecoDTO endereco) {
-        BeanUtils.copyProperties(endereco, this);
-    }
 }

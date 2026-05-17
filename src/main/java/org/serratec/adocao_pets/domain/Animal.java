@@ -2,12 +2,10 @@ package org.serratec.adocao_pets.domain;
 
 import java.util.List;
 
-import org.serratec.adocao_pets.dto.AnimalDTO;
 import org.serratec.adocao_pets.enumerated.Especie;
 import org.serratec.adocao_pets.enumerated.Sexo;
 import org.serratec.adocao_pets.enumerated.StatusAdocao;
 import org.serratec.adocao_pets.enumerated.Tamanho;
-import org.springframework.beans.BeanUtils;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -76,7 +74,4 @@ public class Animal {
     @JoinTable(name = "animal_caracteristica", joinColumns = @JoinColumn(name = "animal_id"), inverseJoinColumns = @JoinColumn(name = "caracteristica_id"))
     private List<Caracteristica> carateristicas;
 
-    public Animal(AnimalDTO animal) {
-        BeanUtils.copyProperties(animal, this);
-    }
 }

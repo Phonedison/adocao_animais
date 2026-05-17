@@ -3,17 +3,15 @@ package org.serratec.adocao_pets.domain;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
 import org.serratec.adocao_pets.dto.PessoaDTO;
-import org.serratec.adocao_pets.enumerated.TipoPessoa;
 import org.springframework.beans.BeanUtils;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -53,12 +51,8 @@ public class Pessoa {
 
     // referencia a classe Endereco
     @NotBlank(message = "O campo não pode estar em branco")
-    @ManyToOne // pode ser ligação 1:1 ou N:1
+    @OneToOne(cascade = CascadeType.PERSIST) // pode ser ligação 1:1 ou N:1
     @JoinColumn(name = "endereco_id", referencedColumnName = "id") // vinculo
     private Endereco endereco;
-
-    public Pessoa(PessoaDTO pessoa) {
-        BeanUtils.copyProperties(pessoa, this);
-    }
 
 }
