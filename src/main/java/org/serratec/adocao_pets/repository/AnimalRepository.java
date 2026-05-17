@@ -3,10 +3,7 @@ package org.serratec.adocao_pets.repository;
 import java.util.List;
 
 import org.serratec.adocao_pets.domain.Animal;
-import org.serratec.adocao_pets.enumerated.Especie;
-import org.serratec.adocao_pets.enumerated.Sexo;
-import org.serratec.adocao_pets.enumerated.StatusAdocao;
-import org.serratec.adocao_pets.enumerated.Tamanho;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,12 +15,12 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
     @Query(("Select a FROM animal a WHERE a.nome LIKE %:parte%"))
     List<Animal> findByNome(@Param("parte") String valor);
 
-    List<Animal> findByEspecie(Especie especie);
+    List<Animal> findByEspecie(String especie);
 
-    List<Animal> findByTamanho(Tamanho tamanho);
+    List<Animal> findByTamanho(String tamanho);
 
-    List<Animal> findBySexo(Sexo sexo);
+    List<Animal> findBySexo(String sexo);
 
-    List<Animal> findByStatusAdocao(StatusAdocao statusAdocao);
+    List<Animal> findByStatusAdocao(String statusAdocao);
 
 }
