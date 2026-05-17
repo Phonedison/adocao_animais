@@ -1,5 +1,8 @@
 package org.serratec.adocao_pets.domain;
 
+import org.serratec.adocao_pets.dto.EnderecoDTO;
+import org.springframework.beans.BeanUtils;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,4 +48,8 @@ public class Endereco {
     @NotBlank(message = "O CEP não pode estar em branco")
     @Pattern(regexp = "\\d{5}-\\d{3}", message = "O CEP deve estar no formato 00000-000")
     private String cep;
+
+    public Endereco(EnderecoDTO endereco) {
+        BeanUtils.copyProperties(endereco, this);
+    }
 }

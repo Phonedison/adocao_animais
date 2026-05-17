@@ -2,7 +2,9 @@ package org.serratec.adocao_pets.domain;
 
 import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
+import org.serratec.adocao_pets.dto.PessoaDTO;
 import org.serratec.adocao_pets.enumerated.TipoPessoa;
+import org.springframework.beans.BeanUtils;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,5 +61,9 @@ public class Pessoa {
     @NotBlank(message = "O campo não pode estar em branco")
     @Column
     private TipoPessoa tipoPessoa;
+
+    public Pessoa(PessoaDTO pessoa) {
+        BeanUtils.copyProperties(pessoa, this);
+    }
 
 }

@@ -1,5 +1,8 @@
 package org.serratec.adocao_pets.domain;
 
+import org.serratec.adocao_pets.dto.CaracteristicaAnimalDTO;
+import org.springframework.beans.BeanUtils;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,4 +30,8 @@ public class CaracteristicaAnimal {
     @Column
     @NotBlank(message = "O NOME não pode estar em branco")
     private String nome; // exemplo: "Castrado", "Vacinado", "Dócil", "Brincalhão", "Precisa de quintal";
+
+    public CaracteristicaAnimal(CaracteristicaAnimalDTO caracteristica) {
+        BeanUtils.copyProperties(caracteristica, this);
+    }
 }

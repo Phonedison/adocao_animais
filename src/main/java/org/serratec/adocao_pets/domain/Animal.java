@@ -1,9 +1,11 @@
 package org.serratec.adocao_pets.domain;
 
+import org.serratec.adocao_pets.dto.AnimalDTO;
 import org.serratec.adocao_pets.enumerated.Especie;
 import org.serratec.adocao_pets.enumerated.Sexo;
 import org.serratec.adocao_pets.enumerated.StatusAdocao;
 import org.serratec.adocao_pets.enumerated.Tamanho;
+import org.springframework.beans.BeanUtils;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -68,4 +70,8 @@ public class Animal {
     @NotBlank(message = "O campo não pode estar em branco")
     @Column
     private StatusAdocao statusAdocao;
+
+    public Animal(AnimalDTO animal) {
+        BeanUtils.copyProperties(animal, this);
+    }
 }
