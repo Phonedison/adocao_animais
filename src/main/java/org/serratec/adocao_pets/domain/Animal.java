@@ -32,11 +32,11 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Campo nome vazio, Preencha com o nome atual do animal!")
+    @NotBlank(message = "O campo não pode estar em branco")
     @Column
     private String nome;
 
-    @NotNull(message = "Campo nulo! Preencha com valor!")
+    @NotNull(message = "O campo não pode estar nulo")
     @Positive(message = "Preencha o campo com valores acima de ZERO")
     @Column(name = "meses_vida")
     private Integer mesesVida;
@@ -48,24 +48,24 @@ public class Animal {
 
     // referencia a ENUM especie
     @OneToOne
-    @NotBlank
+    @NotBlank(message = "O campo não pode estar em branco")
     @Column
     private Especie especie;
 
     // referencia a ENUM tamanho
     @OneToOne
-    @NotBlank
+    @NotBlank(message = "O campo não pode estar em branco")
     @Column
     private Tamanho tamanho;
     // referencia a ENUM sexo
 
     @OneToOne
-    @NotBlank
+    @NotBlank(message = "O campo não pode estar em branco")
     @Column
     private Sexo sexo;
     // referencia a ENUM status da adocao
     @OneToOne
-    @NotBlank
+    @NotBlank(message = "O campo não pode estar em branco")
     @Column
     private StatusAdocao statusAdocao;
 }
