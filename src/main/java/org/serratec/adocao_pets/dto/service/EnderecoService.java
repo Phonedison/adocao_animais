@@ -28,6 +28,7 @@ public class EnderecoService {
     public static EnderecoResponse toEnderecoResponse(Endereco endereco) {
 
         EnderecoResponse response = new EnderecoResponse();
+        response.setId(endereco.getId());
         response.setRua(endereco.getRua());
         response.setNumero(endereco.getNumero());
         response.setBairro(endereco.getBairro());
