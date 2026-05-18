@@ -13,6 +13,7 @@ public class PessoaResponse {
     private Long id;
     private String nome;
     private String email;
+    private String Cpf;
     private String telefone;
     private EnderecoResponse endereco;
 
