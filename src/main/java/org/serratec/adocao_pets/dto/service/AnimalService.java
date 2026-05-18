@@ -1,5 +1,8 @@
 package org.serratec.adocao_pets.dto.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.serratec.adocao_pets.domain.Animal;
 import org.serratec.adocao_pets.domain.Caracteristica;
 import org.serratec.adocao_pets.dto.request.AnimalRequest;
@@ -8,9 +11,6 @@ import org.serratec.adocao_pets.dto.response.AnimalResponse;
 public class AnimalService {
 
     public static Animal toAnimal(AnimalRequest request) {
-
-        Caracteristica caracteristica = new Caracteristica();
-        caracteristica.setId(request.getCaracteristicasIds());
 
         Animal animal = new Animal();
 
@@ -21,7 +21,17 @@ public class AnimalService {
         animal.setTamanho(request.getTamanho());
         animal.setSexo(request.getSexo());
         animal.setStatusAdocao(request.getStatusAdocao());
-        animal.setCaracteristicas(request.getCaracteristicasIds());
+
+        if (request.getCaracteristicasIds() != null) {
+            List<Caracteristica> caracteristicas = request.getCaracteristicasIds().stream()
+                    .map(id -> {
+                        Caracteristica c = new Caracteristica();
+                        c.setId(id);
+                        return c;
+                    }).collect(Collectors.toList());
+
+            animal.setCaracteristicas(caracteristicas);
+        }
 
         return animal;
 
@@ -45,7 +55,13 @@ public class AnimalService {
         response.setTamanho(animal.getTamanho());
         response.setSexo(animal.getSexo());
         response.setStatusAdocao(animal.getStatusAdocao());
-        response.setCaracteristicas(animal.getCaracteristicas());
+
+        if (animal.getCaracteristicas() != null) {
+            List<Long> ids = animal.getCaracteristicas().stream()
+                    .map(c -> c.getId()).collect(Collectors.toList());
+
+            response.setCaracteristicasIds(ids);
+        }
 
         return response;
 
