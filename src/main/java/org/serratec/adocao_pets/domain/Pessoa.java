@@ -2,8 +2,6 @@ package org.serratec.adocao_pets.domain;
 
 import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
-import org.serratec.adocao_pets.dto.PessoaDTO;
-import org.springframework.beans.BeanUtils;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

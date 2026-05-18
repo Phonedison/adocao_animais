@@ -72,6 +72,6 @@ public class Animal {
 
     @ManyToMany
     @JoinTable(name = "animal_caracteristica", joinColumns = @JoinColumn(name = "animal_id"), inverseJoinColumns = @JoinColumn(name = "caracteristica_id"))
-    private List<Caracteristica> carateristicas;
+    private List<Caracteristica> caracteristicas;
 
 }

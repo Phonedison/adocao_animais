@@ -2,9 +2,7 @@ package org.serratec.adocao_pets.domain;
 
 import java.time.LocalDateTime;
 
-import org.serratec.adocao_pets.dto.InteresseAdocaoDTO;
 import org.serratec.adocao_pets.enumerated.StatusProcesso;
-import org.springframework.beans.BeanUtils;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

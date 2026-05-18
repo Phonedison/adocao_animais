@@ -1,8 +1,5 @@
 package org.serratec.adocao_pets.domain;
 
-import org.serratec.adocao_pets.dto.EnderecoDTO;
-import org.springframework.beans.BeanUtils;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
