@@ -25,5 +25,5 @@ public class AnimalResponse {
     Tamanho tamanho;
     Sexo sexo;
     StatusAdocao statusAdocao;
-    List<Long> caracteristicas;
+    List<Long> caracteristicasIds;
 }
