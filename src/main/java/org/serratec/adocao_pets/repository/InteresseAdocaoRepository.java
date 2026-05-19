@@ -2,17 +2,14 @@ package org.serratec.adocao_pets.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
-import org.serratec.adocao_pets.domain.Animal;
 import org.serratec.adocao_pets.domain.InteresseAdocao;
+import org.serratec.adocao_pets.domain.InteresseAdocaoPK;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 @Repository
-public interface InteresseAdocaoRepository extends JpaRepository<InteresseAdocao, Long> {
+public interface InteresseAdocaoRepository extends JpaRepository<InteresseAdocao, InteresseAdocaoPK> {
 
-    @Query(("Select ia FROM interesse_adocao ia WHERE a.observacoes LIKE %:parte%"))
-    List<Animal> findByObs(@Param("parte") String valor);
+    List<InteresseAdocao> findByObservacoesContainingIgnoreCase(String valor);
 
 }
