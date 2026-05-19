@@ -18,6 +18,7 @@ import lombok.Setter;
 @Setter // cria os métodos SETs
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+
 public class Endereco {
 
     @Id
@@ -32,6 +33,9 @@ public class Endereco {
 
     @NotBlank(message = "O BAIRRO não pode estar em branco")
     private String bairro;
+
+    @NotBlank(message = "O ESTADO não pode estar em branco")
+    private String cidade;
 
     @NotBlank(message = "O ESTADO não pode estar em branco")
     private String estado;

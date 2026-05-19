@@ -26,13 +26,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-@Entity
-@Table(name = "animal")
 @Getter // cria os métodos GETs
 @Setter // cria os métodos SETs
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@ToString
+@Entity
+@Table(name = "animal")
 public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

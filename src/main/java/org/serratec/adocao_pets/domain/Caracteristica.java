@@ -17,6 +17,7 @@ import lombok.Setter;
 @Setter // cria os métodos SETs
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+
 public class Caracteristica {
 
     @Id

@@ -25,6 +25,7 @@ import lombok.Setter;
 @Setter // cria os métodos SETs
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+
 public class Pessoa {
 
     @Id
@@ -52,5 +53,4 @@ public class Pessoa {
     @OneToOne(cascade = CascadeType.PERSIST) // pode ser ligação 1:1 ou N:1
     @JoinColumn(name = "endereco_id", referencedColumnName = "id") // vinculo
     private Endereco endereco;
-
 }

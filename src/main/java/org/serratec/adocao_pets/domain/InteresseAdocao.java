@@ -4,14 +4,13 @@ import java.time.LocalDateTime;
 
 import org.serratec.adocao_pets.enumerated.StatusProcesso;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Past;
 import lombok.EqualsAndHashCode;
@@ -25,16 +24,19 @@ import lombok.Setter;
 @Setter // cria os métodos SETs
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+
 public class InteresseAdocao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @EmbeddedId
+    private InteresseAdocaoPK id = new InteresseAdocaoPK();
 
     @ManyToOne
+    @MapsId("pessoaId")
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
     @ManyToOne
+    @MapsId("animalId")
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
