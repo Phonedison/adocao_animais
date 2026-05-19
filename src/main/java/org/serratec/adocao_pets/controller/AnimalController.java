@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
-import org.serratec.adocao_pets.domain.Animal;
 import org.serratec.adocao_pets.dto.request.AnimalDTORequest;
 import org.serratec.adocao_pets.dto.response.AnimalDTOResponse;
 import org.serratec.adocao_pets.dto.response.CaracteristicaDTOResponse;
@@ -100,10 +99,7 @@ public class AnimalController {
 
     @PostMapping("/salvar-lista")
     public ResponseEntity<List<AnimalDTOResponse>> salvarVarios(@Valid @RequestBody List<AnimalDTORequest> request) {
-        List<Animal> animais = request.stream().map(AnimalService::toAnimal).toList();
-        List<Animal> animaisSalvos = service.salvarList(animais);
-        List<AnimalDTOResponse> animaisResponse = animaisSalvos.stream()
-                .map(AnimalService::toAnimalResponse).toList();
+        List<AnimalDTOResponse> animaisResponse = service.salvarList(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(animaisResponse);
     }

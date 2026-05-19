@@ -180,8 +180,11 @@ public class AnimalService {
         return toAnimalResponse(salvo);
     }
 
-    public List<Animal> salvarList(List<Animal> animais) {
-        return animalRepository.saveAll(animais);
+    public List<AnimalDTOResponse> salvarList(List<AnimalDTORequest> request) {
+        List<Animal> animais = request.stream().map(AnimalService::toAnimal).toList();
+        List<Animal> salvo = animalRepository.saveAll(animais);
+
+        return salvo.stream().map(AnimalService::toAnimalResponse).toList();
     }
 
     // Métodos para o PUT
