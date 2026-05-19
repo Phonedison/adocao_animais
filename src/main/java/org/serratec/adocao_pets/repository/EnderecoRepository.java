@@ -26,6 +26,8 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
      * List<Endereco> findByCep(@Param("parte") String parte);
      */
 
+    List<Endereco> findByNumeroContainingIgnoreCase(String valor);
+
     List<Endereco> findByRuaContainingIgnoreCase(String valor);
 
     List<Endereco> findByBairroContainingIgnoreCase(String valor);
