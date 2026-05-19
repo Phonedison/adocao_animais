@@ -11,6 +11,7 @@ public class EnderecoService {
     public static Endereco toEndereco(EnderecoDTORequest request) {
 
         Endereco endereco = new Endereco();
+
         endereco.setRua(request.getRua());
         endereco.setNumero(request.getNumero());
         endereco.setBairro(request.getBairro());
