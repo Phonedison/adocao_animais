@@ -1,0 +1,67 @@
+package org.serratec.adocao_pets.dto.response;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.serratec.adocao_pets.domain.Animal;
+import org.serratec.adocao_pets.enumerated.Especie;
+import org.serratec.adocao_pets.enumerated.Sexo;
+import org.serratec.adocao_pets.enumerated.StatusAdocao;
+import org.serratec.adocao_pets.enumerated.Tamanho;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter // cria os métodos GETs
+@Setter // cria os métodos SETs
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonPropertyOrder({
+        "id",
+        "nome",
+        "mesesVida",
+        "especie",
+        "tamanho",
+        "sexo",
+        "descricao",
+        "caracteristicasIds",
+        "statusAdocao"
+})
+public class AnimalDTOResponse {
+    Long id;
+    String nome;
+    Integer mesesVida;
+    String descricao;
+    Especie especie;
+    Tamanho tamanho;
+    Sexo sexo;
+    StatusAdocao statusAdocao;
+    List<CaracteristicaDTOResponse> caracteristicasIds;
+
+    public AnimalDTOResponse(Animal animal) {
+        this.id = animal.getId();
+        this.nome = animal.getNome();
+        this.mesesVida = animal.getMesesVida();
+        this.especie = animal.getEspecie();
+        this.tamanho = animal.getTamanho();
+        this.sexo = animal.getSexo();
+        this.descricao = animal.getDescricao();
+        this.statusAdocao = animal.getStatusAdocao();
+
+        if (animal.getCaracteristicas() != null) {
+            this.caracteristicasIds = animal.getCaracteristicas().stream()
+                    .map(caracteristica -> {
+                        CaracteristicaDTOResponse dto = new CaracteristicaDTOResponse();
+                        dto.setId(caracteristica.getId());
+                        dto.setDescricao(caracteristica.getDescricao());
+                        return dto;
+                    })
+                    .collect(Collectors.toList());
+        }
+    }
+
+}
