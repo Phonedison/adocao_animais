@@ -141,7 +141,7 @@ public class PessoaService {
 
     }
 
-    public void excluir(Long id) {
+    public void deletar(Long id) {
         repository.findById(id).ifPresentOrElse(
                 repository::delete,
                 () -> {
