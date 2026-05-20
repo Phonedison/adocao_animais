@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.serratec.adocao_pets.dto.request.CaracteristicaDTORequest;
 import org.serratec.adocao_pets.dto.response.CaracteristicaDTOResponse;
+import org.serratec.adocao_pets.dto.response.EnderecoDTOResponse;
 import org.serratec.adocao_pets.exception.RecursoNaoEncontradoException;
 import org.serratec.adocao_pets.service.CaracteristicaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class CaracteristicaController {
         return service.buscarDescricao(descricao);
     }
 
-    @PostMapping("/salvar")
+    @PostMapping
     public ResponseEntity<CaracteristicaDTOResponse> salvar(@Valid @RequestBody CaracteristicaDTORequest request) {
         CaracteristicaDTOResponse caracteristicasResponse = service.salvar(request);
 
@@ -65,15 +66,16 @@ public class CaracteristicaController {
         return ResponseEntity.ok(salvas);
     }
 
-    @PutMapping("/atualizar/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<CaracteristicaDTOResponse> atualizarTudo(@Valid @PathVariable Long id,
             @Valid @RequestBody CaracteristicaDTORequest request) {
         return service.atualizar(id, request);
     }
 
-    @DeleteMapping("/excluir/{id}")
-    public ResponseEntity<CaracteristicaDTOResponse> deletar(@Valid @PathVariable Long id) {
-        return service.excluir(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<EnderecoDTOResponse> deletar(@PathVariable Long id) throws RecursoNaoEncontradoException {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
