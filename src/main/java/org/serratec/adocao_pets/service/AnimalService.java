@@ -43,9 +43,13 @@ public class AnimalService {
             Set<Caracteristica> caracteristicas = request.caracteristicas().stream()
                     .map(id -> caracteristicaRepository.findById(id)
                             .orElseThrow(
-                                    () -> new RecursoNaoEncontradoException("Característica não encontrada: " + id)))
+                                    () -> new RecursoNaoEncontradoException(
+                                            "Característica de ID '" + id + "' não encontrada: ")))
                     .collect(Collectors.toSet());
+
+            animal.setCaracteristicas(caracteristicas);
         }
+
         return animal;
     }
 
