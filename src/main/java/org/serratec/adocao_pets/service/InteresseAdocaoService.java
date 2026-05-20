@@ -38,6 +38,7 @@ public class InteresseAdocaoService {
         interesse.setPessoa(pessoa);
         interesse.setAnimal(animal);
 
+        interesse.setId(new InteresseAdocaoPK(pessoa.getId(), animal.getId()));
         interesse.setDataPedido(request.dataPedido());
         interesse.setStatusProcesso(request.statusProcesso());
         interesse.setObservacoes(request.observacoes());
