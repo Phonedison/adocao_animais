@@ -91,10 +91,11 @@ public class CaracteristicaService {
     }
 
     // Métodos DELETE
-    public boolean excluir(Long id) {
-        return caracteristicaRepository.findById(id).map(caracteristica -> {
-            caracteristicaRepository.delete(caracteristica);
-            return true;
-        }).orElse(false);
+    public void excluir(Long id) {
+        caracteristicaRepository.findById(id).ifPresentOrElse(
+                caracteristicaRepository::delete,
+                () -> {
+                    throw new RecursoNaoEncontradoException("Caracteristica com o ID " + id + " não foi encontrado.");
+                });
     }
 }
