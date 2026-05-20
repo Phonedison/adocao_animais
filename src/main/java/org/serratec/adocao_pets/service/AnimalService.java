@@ -208,10 +208,11 @@ public class AnimalService {
     }
 
     // Métodos DELETE
-    public boolean excluir(Long id) {
-        return animalRepository.findById(id).map(animal -> {
-            animalRepository.delete(animal);
-            return true;
-        }).orElse(false);
+    public void excluir(Long id) {
+        animalRepository.findById(id).ifPresentOrElse(
+                animalRepository::delete,
+                () -> {
+                    throw new RecursoNaoEncontradoException("Endereço com o ID " + id + " não foi encontrado.");
+                });
     }
 }

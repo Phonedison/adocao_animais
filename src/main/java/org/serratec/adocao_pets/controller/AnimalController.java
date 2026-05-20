@@ -6,6 +6,7 @@ import java.util.List;
 import org.serratec.adocao_pets.dto.request.AnimalDTORequest;
 import org.serratec.adocao_pets.dto.response.AnimalDTOResponse;
 import org.serratec.adocao_pets.dto.response.CaracteristicaDTOResponse;
+import org.serratec.adocao_pets.dto.response.EnderecoDTOResponse;
 import org.serratec.adocao_pets.exception.RecursoNaoEncontradoException;
 import org.serratec.adocao_pets.service.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,8 +150,8 @@ public class AnimalController {
     @ApiResponse(responseCode = "24", description = "Animal excluído com sucesso (No Content)")
     @ApiResponse(responseCode = "404", description = "Animal não encontrado para exclusão")
     @DeleteMapping("/{id}")
-    public ResponseEntity<AnimalDTOResponse> deletar(
-            @Parameter(description = "ID do animal a ser excluído", example = "1") @Valid @PathVariable Long id) {
-        return service.excluir(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<EnderecoDTOResponse> deletar(@PathVariable Long id) throws RecursoNaoEncontradoException {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }
