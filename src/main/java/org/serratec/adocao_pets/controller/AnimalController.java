@@ -25,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -126,8 +127,10 @@ public class AnimalController {
     }
 
     @Operation(summary = "Cadastrar múltiplos animais", description = "Recebe uma lista de animais e realiza o cadastro em lote.")
-    @ApiResponse(responseCode = "201", description = "Lista de animais cadastrada com sucesso")
-    @ApiResponse(responseCode = "400", description = "Dados da lista inválidos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Lista de animais cadastrada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados da lista inválidos"),
+    })
     @PostMapping("/salvar-lista")
     public ResponseEntity<List<AnimalDTOResponse>> salvarVarios(@Valid @RequestBody List<AnimalDTORequest> request) {
         List<AnimalDTOResponse> animaisResponse = service.salvarList(request);
@@ -136,9 +139,11 @@ public class AnimalController {
     }
 
     @Operation(summary = "Alterar todas as propriedades do animal", description = "Atualiza completamente os dados de um animal existente com base no ID.")
-    @ApiResponse(responseCode = "200", description = "Animal atualizado com sucesso")
-    @ApiResponse(responseCode = "400", description = "Dados informados inválidos")
-    @ApiResponse(responseCode = "404", description = "Animal não encontrado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Animal atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados informados inválidos"),
+            @ApiResponse(responseCode = "404", description = "Animal não encontrado")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<AnimalDTOResponse> atualizarTudo(
             @Parameter(description = "ID do animal a ser atualizado", example = "1") @Valid @PathVariable Long id,
@@ -147,8 +152,10 @@ public class AnimalController {
     }
 
     @Operation(summary = "Excluir um animal", description = "Remove o registro de um animal do sistema com base no ID.")
-    @ApiResponse(responseCode = "24", description = "Animal excluído com sucesso (No Content)")
-    @ApiResponse(responseCode = "404", description = "Animal não encontrado para exclusão")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Animal excluído com sucesso (No Content)"),
+            @ApiResponse(responseCode = "404", description = "Animal não encontrado para exclusão"),
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<EnderecoDTOResponse> deletar(@PathVariable Long id) throws RecursoNaoEncontradoException {
         service.excluir(id);
