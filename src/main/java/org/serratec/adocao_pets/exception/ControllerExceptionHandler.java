@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -98,4 +99,40 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 return handleExceptionInternal(ex, erroResposta, new HttpHeaders(), status, request);
         }
 
+        @ExceptionHandler(DataIntegrityViolationException.class)
+        public ResponseEntity<Object> handleDataIntegrity(DataIntegrityViolationException ex, WebRequest request) {
+                HttpStatus status = HttpStatus.CONFLICT;
+                List<String> erros = new ArrayList<>();
+
+                String mensagem = extrairMensagemDoBanco(ex);
+
+                erros.add(mensagem);
+
+                ErroResposta erroResposta = new ErroResposta(
+                                status.value(),
+                                "Conflito de integridade nos dados!",
+                                LocalDateTime.now(ZoneId.of(regiao)),
+                                erros);
+
+                return handleExceptionInternal(ex, erroResposta, new HttpHeaders(), status, request);
+        }
+
+        private String extrairMensagemDoBanco(DataIntegrityViolationException ex) {
+
+                if (ex.getMostSpecificCause() == null) {
+                        return ex.getMessage();
+                }
+
+                String mensagem = ex.getMostSpecificCause().getMessage();
+
+                if (mensagem.contains("Duplicate entry")) {
+                        return "Atenção, dados duplicado!";
+                }
+
+                if (mensagem.contains("foreign key constraint fails")) {
+                        return "Este registro não pode ser excluído ou alterado pois está sendo usado em outro lugar!";
+                }
+
+                return "Erro de integridade de dados: " + mensagem;
+        }
 }
