@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -28,6 +30,7 @@ public class InteresseAdocaoController {
 
     // GETs
     @GetMapping
+    @JsonIgnoreProperties({ "endereco" })
     public ResponseEntity<List<InteresseAdocaoDTOResponse>> listar() {
         return ResponseEntity.ok(service.listarTodos());
     }
