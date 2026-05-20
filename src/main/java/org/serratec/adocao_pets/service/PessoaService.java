@@ -141,12 +141,12 @@ public class PessoaService {
 
     }
 
-    public void deletar(Long id) throws RecursoNaoEncontradoException {
-        if (!repository.existsById(id)) {
-            throw new RecursoNaoEncontradoException(
-                    "Não é possível deletar. Pessoa com ID '" + id + "' não encontrada!");
-        }
-        repository.deleteById(id);
+    public void excluir(Long id) {
+        repository.findById(id).ifPresentOrElse(
+                repository::delete,
+                () -> {
+                    throw new RecursoNaoEncontradoException("Pessoa com o ID " + id + " não foi encontrado.");
+                });
     }
 
 }
