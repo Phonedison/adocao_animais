@@ -44,7 +44,7 @@ public class Pessoa {
     @Pattern(regexp = "^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$", message = "O formato do telefone é inválido (Ex: (99) 99999-9999)")
     private String telefone;
 
-    // @CPF
+    @CPF
     @NotBlank(message = "O campo não pode estar em branco")
     @Column(unique = true)
     private String cpf;
