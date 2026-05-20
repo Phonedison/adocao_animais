@@ -2,7 +2,6 @@ package org.serratec.adocao_pets.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 import org.serratec.adocao_pets.dto.request.AnimalDTORequest;
 import org.serratec.adocao_pets.dto.response.AnimalDTOResponse;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -108,12 +106,6 @@ public class AnimalController {
     public ResponseEntity<AnimalDTOResponse> atualizarTudo(@Valid @PathVariable Long id,
             @Valid @RequestBody AnimalDTORequest request) {
         return service.atualizar(id, request);
-    }
-
-    @PatchMapping("/atualizar/{id}")
-    public ResponseEntity<AnimalDTOResponse> atualizar(@Valid @PathVariable Long id, Map<String, Object> propriedade) {
-        AnimalDTOResponse response = service.atualizar(id, propriedade);
-        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/excluir/{id}")

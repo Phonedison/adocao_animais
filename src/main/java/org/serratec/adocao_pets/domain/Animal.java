@@ -1,6 +1,7 @@
 package org.serratec.adocao_pets.domain;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.serratec.adocao_pets.enumerated.Especie;
 import org.serratec.adocao_pets.enumerated.Sexo;
@@ -53,27 +54,28 @@ public class Animal {
     private String descricao; // sobre o pet
 
     // referencia a ENUM especie
-    @NotBlank(message = "O campo não pode estar em branco")
+    @NotNull(message = "A espécie deve ser informada")
     @Enumerated(EnumType.STRING)
     private Especie especie;
 
     // referencia a ENUM tamanho
-    @NotBlank(message = "O campo não pode estar em branco")
+    @NotNull(message = "O status de adoção deve ser informado")
     @Enumerated(EnumType.STRING)
     private Tamanho tamanho;
 
     // referencia a ENUM sexo
-    @NotBlank(message = "O campo não pode estar em branco")
+    @NotNull(message = "O sexo deve ser informado")
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
 
     // referencia a ENUM status da adocao
-    @NotBlank(message = "O campo não pode estar em branco")
+    @NotNull(message = "O status de adoção deve ser informado")
     @Enumerated(EnumType.STRING)
     private StatusAdocao statusAdocao;
 
     @ManyToMany
     @JoinTable(name = "animal_caracteristica", joinColumns = @JoinColumn(name = "animal_id"), inverseJoinColumns = @JoinColumn(name = "caracteristica_id"))
-    private List<Caracteristica> caracteristicas;
+    // private List<Caracteristica> caracteristicas;
+    private Set<Caracteristica> caracteristicas = new HashSet<>();
 
 }

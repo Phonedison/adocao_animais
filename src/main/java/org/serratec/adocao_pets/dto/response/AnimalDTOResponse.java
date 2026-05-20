@@ -28,7 +28,7 @@ import lombok.Setter;
         "tamanho",
         "sexo",
         "descricao",
-        "caracteristicasIds",
+        "caracteristicas",
         "statusAdocao"
 })
 public class AnimalDTOResponse {

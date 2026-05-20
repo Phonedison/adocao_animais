@@ -1,8 +1,7 @@
 package org.serratec.adocao_pets.service;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.serratec.adocao_pets.domain.Animal;
@@ -19,7 +18,6 @@ import org.serratec.adocao_pets.repository.AnimalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
 
 @Service
 public class AnimalService {
@@ -38,12 +36,13 @@ public class AnimalService {
         animal.setStatusAdocao(request.getStatusAdocao());
 
         if (request.getCaracteristicasIds() != null) {
-            List<Caracteristica> caracteristicas = request.getCaracteristicasIds().stream()
+            Set<Caracteristica> caracteristicas = request.getCaracteristicasIds().stream()
                     .map(id -> {
                         Caracteristica c = new Caracteristica();
                         c.setId(id);
                         return c;
-                    }).collect(Collectors.toList());
+                    })
+                    .collect(Collectors.toSet());
             animal.setCaracteristicas(caracteristicas);
         }
         return animal;
@@ -205,27 +204,6 @@ public class AnimalService {
             return ResponseEntity.ok(response);
 
         }).orElse(ResponseEntity.notFound().build());
-    }
-
-    // Método PATCH
-    // o método recebe um "nome de entidade + valor" e faz um mapeamento do atributo
-    // da classe para alterar
-    public AnimalDTOResponse atualizar(Long id, Map<String, Object> propriedade) {
-        // Verifica se o id do animal passado existe
-        Animal existente = animalRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Animal de ID '" + id + "' não encontrado!"));
-
-        propriedade.forEach((entidade, valor) -> { // passa por cada campo passado na API
-            // pega o nome do atributo da classe Animal
-            Field field = ReflectionUtils.findField(Animal.class, entidade);
-
-            if (field != null) {
-                field.setAccessible(true); // Autoriza alterar o atributo informado no corpo
-                ReflectionUtils.setField(field, existente, valor); // altera o valor do atributo solicitado
-            }
-        });
-        Animal salvo = animalRepository.save(existente); // salva a alteração
-        return toAnimalResponse(salvo);
     }
 
     // Métodos DELETE
