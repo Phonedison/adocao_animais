@@ -20,7 +20,7 @@ public class CaracteristicaService {
 
     public static Caracteristica toCaracteristica(CaracteristicaDTORequest request) {
         Caracteristica caracteristica = new Caracteristica();
-        caracteristica.setDescricao(request.getDescricao());
+        caracteristica.setDescricao(request.descricao());
 
         return caracteristica;
     }
@@ -80,7 +80,7 @@ public class CaracteristicaService {
     public ResponseEntity<CaracteristicaDTOResponse> atualizar(Long id, CaracteristicaDTORequest request) {
         return caracteristicaRepository.findById(id).map(existe -> {
 
-            existe.setDescricao(request.getDescricao());
+            existe.setDescricao(request.descricao());
 
             Caracteristica salvo = caracteristicaRepository.save(existe);
             CaracteristicaDTOResponse response = toCaracteristicaResponse(salvo);
