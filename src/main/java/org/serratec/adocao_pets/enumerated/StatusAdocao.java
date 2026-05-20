@@ -9,9 +9,13 @@ public enum StatusAdocao {
 
     @JsonCreator
     public static StatusAdocao verifica(String value) throws EnumValidationException {
-        for (StatusAdocao st : values()) {
-            if (value.equals(st.name())) {
-                return st;
+        if (value == null) {
+            return null;
+        }
+
+        for (StatusAdocao e : values()) {
+            if (e.name().equalsIgnoreCase(value)) {
+                return e;
             }
         }
         throw new EnumValidationException("Status Adoção inválido(a). Valores válidos: DISPONIVEL, ANALISE OU ADOTADO");

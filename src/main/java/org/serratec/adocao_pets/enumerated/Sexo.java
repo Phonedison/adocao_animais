@@ -9,9 +9,13 @@ public enum Sexo {
 
     @JsonCreator
     public static Sexo verifica(String value) throws EnumValidationException {
-        for (Sexo s : values()) {
-            if (value.equals(s.name())) {
-                return s;
+        if (value == null) {
+            return null;
+        }
+
+        for (Sexo e : values()) {
+            if (e.name().equalsIgnoreCase(value)) {
+                return e;
             }
         }
         throw new EnumValidationException("Sexo inválido(a). Valores válidos: MACHO OU FEMEA");

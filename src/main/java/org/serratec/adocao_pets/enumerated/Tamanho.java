@@ -2,13 +2,21 @@ package org.serratec.adocao_pets.enumerated;
 
 import org.serratec.adocao_pets.exception.EnumValidationException;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public enum Tamanho {
     PEQUENO, MEDIO, GRANDE;
 
+    @JsonCreator
     public static Tamanho verifica(String value) throws EnumValidationException {
-        for (Tamanho t : values()) {
-            if (value.equals(t.name())) {
-                return t;
+
+        if (value == null) {
+            return null;
+        }
+
+        for (Tamanho e : values()) {
+            if (e.name().equalsIgnoreCase(value)) {
+                return e;
             }
         }
         throw new EnumValidationException(

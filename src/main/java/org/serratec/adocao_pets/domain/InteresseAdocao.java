@@ -12,7 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,7 +40,7 @@ public class InteresseAdocao {
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
-    @Past(message = "Data de pedido inválido. Preencha novamente!")
+    @PastOrPresent(message = "Data de pedido inválido.")
     private LocalDateTime dataPedido;
 
     @Enumerated(EnumType.STRING)

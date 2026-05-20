@@ -34,7 +34,7 @@ public class Endereco {
     @NotBlank(message = "O BAIRRO não pode estar em branco")
     private String bairro;
 
-    @NotBlank(message = "O ESTADO não pode estar em branco")
+    @NotBlank(message = "A CIDADE não pode estar em branco")
     private String cidade;
 
     @NotBlank(message = "O ESTADO não pode estar em branco")

@@ -9,8 +9,12 @@ public enum Especie {
 
     @JsonCreator
     public static Especie verifica(String value) throws EnumValidationException {
+        if (value == null) {
+            return null;
+        }
+
         for (Especie e : values()) {
-            if (value.equals(e.name())) {
+            if (e.name().equalsIgnoreCase(value)) {
                 return e;
             }
         }

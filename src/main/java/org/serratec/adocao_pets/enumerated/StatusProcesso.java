@@ -9,9 +9,13 @@ public enum StatusProcesso {
 
     @JsonCreator
     public static StatusProcesso verifica(String value) throws EnumValidationException {
-        for (StatusProcesso s : values()) {
-            if (value.equals(s.name())) {
-                return s;
+        if (value == null) {
+            return null;
+        }
+
+        for (StatusProcesso e : values()) {
+            if (e.name().equalsIgnoreCase(value)) {
+                return e;
             }
         }
         throw new EnumValidationException(
