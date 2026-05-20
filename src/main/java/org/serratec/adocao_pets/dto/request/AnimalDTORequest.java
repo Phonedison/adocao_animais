@@ -7,23 +7,12 @@ import org.serratec.adocao_pets.enumerated.Sexo;
 import org.serratec.adocao_pets.enumerated.StatusAdocao;
 import org.serratec.adocao_pets.enumerated.Tamanho;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter // cria os métodos GETs
-@Setter // cria os métodos SETs
-@NoArgsConstructor
-@AllArgsConstructor
-public class AnimalDTORequest {
-
-    private String nome;
-    private Integer mesesVida;
-    private String descricao;
-    private Especie especie;
-    private Tamanho tamanho;
-    private Sexo sexo;
-    private StatusAdocao statusAdocao;
-    private List<Long> caracteristicasIds;
+public record AnimalDTORequest(String nome,
+                Integer mesesVida,
+                String descricao,
+                Especie especie,
+                Tamanho tamanho,
+                Sexo sexo,
+                StatusAdocao statusAdocao,
+                List<Long> caracteristicas) {
 }
