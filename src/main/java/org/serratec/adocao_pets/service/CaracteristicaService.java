@@ -44,7 +44,8 @@ public class CaracteristicaService {
         return caracteristicaRepository.findById(id)
                 .map(CaracteristicaService::toCaracteristicaResponse)
                 .map(ResponseEntity::ok)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Animal de ID '" + id + "' não encontrado!"));
+                .orElseThrow(
+                        () -> new RecursoNaoEncontradoException("Caracteristica de ID '" + id + "' não encontrado!"));
     }
 
     public ResponseEntity<List<CaracteristicaDTOResponse>> buscarDescricao(String descricao)
@@ -57,7 +58,7 @@ public class CaracteristicaService {
 
         if (caracteristicas.isEmpty()) {
             throw new RecursoNaoEncontradoException(
-                    "Nenhum animal com descricao contendo '" + descricao + "' encontrado!");
+                    "Nenhuma descrição contendo '" + descricao + "' encontrado!");
         }
         return ResponseEntity.ok(caracteristicas);
     }

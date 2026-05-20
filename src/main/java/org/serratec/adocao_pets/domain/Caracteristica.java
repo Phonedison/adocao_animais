@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,9 @@ import lombok.Setter;
 @Getter // cria os métodos GETs
 @Setter // cria os métodos SETs
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@AllArgsConstructor
+// @EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "descricao")
 
 public class Caracteristica {
 

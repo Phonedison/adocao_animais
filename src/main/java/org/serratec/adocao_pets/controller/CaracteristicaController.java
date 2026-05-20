@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 
 @RestController
@@ -47,15 +47,22 @@ public class CaracteristicaController {
 
     @PostMapping("/salvar")
     public ResponseEntity<CaracteristicaDTOResponse> salvar(@Valid @RequestBody CaracteristicaDTORequest request) {
-        CaracteristicaDTOResponse animalResponse = service.salvar(request);
+        CaracteristicaDTOResponse caracteristicasResponse = service.salvar(request);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(animalResponse.getId())
+                .buildAndExpand(caracteristicasResponse.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(animalResponse);
+        return ResponseEntity.created(uri).body(caracteristicasResponse);
+    }
+
+    @PostMapping("/salvar-lista")
+    public ResponseEntity<List<CaracteristicaDTOResponse>> salvarLista(
+            @RequestBody List<CaracteristicaDTORequest> request) {
+        List<CaracteristicaDTOResponse> salvas = service.salvarList(request);
+        return ResponseEntity.ok(salvas);
     }
 
     @PutMapping("/atualizar/{id}")
