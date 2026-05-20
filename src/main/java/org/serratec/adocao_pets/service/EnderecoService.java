@@ -2,10 +2,10 @@ package org.serratec.adocao_pets.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.serratec.adocao_pets.domain.Endereco;
 import org.serratec.adocao_pets.dto.request.EnderecoDTORequest;
 import org.serratec.adocao_pets.dto.response.EnderecoDTOResponse;
-
 import org.serratec.adocao_pets.exception.RecursoNaoEncontradoException;
 import org.serratec.adocao_pets.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,7 @@ public class EnderecoService {
         endereco.setRua(request.getRua());
         endereco.setNumero(request.getNumero());
         endereco.setBairro(request.getBairro());
+        endereco.setCidade(request.getCidade());
         endereco.setEstado(request.getEstado());
         endereco.setCep(request.getCep());
         return endereco;
@@ -37,6 +38,7 @@ public class EnderecoService {
         response.setRua(endereco.getRua());
         response.setNumero(endereco.getNumero());
         response.setBairro(endereco.getBairro());
+        response.setCidade(endereco.getCidade());
         response.setEstado(endereco.getEstado());
         response.setCep(endereco.getCep());
         return response;

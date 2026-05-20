@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class EnderecoDTORequest {
 
+        private Long id;
         private String rua;
         private String numero;
         private String bairro;

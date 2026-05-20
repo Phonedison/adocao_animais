@@ -14,5 +14,6 @@ public class PessoaDTORequest {
     private String email;
     private String telefone;
     private String cpf;
+
     private EnderecoDTORequest endereco;
 }

@@ -70,6 +70,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus status = HttpStatus.BAD_REQUEST;
                 List<String> erros = new ArrayList<>();
 
+                erros.add(ex.getMessage());
+
                 ErroResposta erroResposta = new ErroResposta(
                                 status.value(), "ENUM inválido, valor de campo incorreto!",
                                 LocalDateTime.now(ZoneId.of(regiao)),

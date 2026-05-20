@@ -20,7 +20,7 @@ import lombok.Setter;
         "endereco" })
 public class PessoaDTOResponse {
     private Long id;
-    private String Cpf;
+    private String cpf;
     private String nome;
     private String telefone;
     private String email;
