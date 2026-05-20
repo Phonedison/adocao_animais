@@ -1,6 +1,8 @@
 package org.serratec.adocao_pets.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.serratec.adocao_pets.enumerated.Especie;
@@ -8,6 +10,7 @@ import org.serratec.adocao_pets.enumerated.Sexo;
 import org.serratec.adocao_pets.enumerated.StatusAdocao;
 import org.serratec.adocao_pets.enumerated.Tamanho;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,6 +21,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -77,5 +81,8 @@ public class Animal {
     @JoinTable(name = "animal_caracteristica", joinColumns = @JoinColumn(name = "animal_id"), inverseJoinColumns = @JoinColumn(name = "caracteristica_id"))
     // private List<Caracteristica> caracteristicas;
     private Set<Caracteristica> caracteristicas = new HashSet<>();
+
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<InteresseAdocao> interesses = new ArrayList<>();
 
 }
