@@ -80,7 +80,7 @@ public class EnderecoController {
         return service.buscarCep(cep);
     }
 
-    @PostMapping("/salvar")
+    @PostMapping
     public ResponseEntity<EnderecoDTOResponse> salvar(@Valid @RequestBody EnderecoDTORequest request) {
         EnderecoDTOResponse enderecoResponse = service.salvar(request);
 
@@ -102,8 +102,9 @@ public class EnderecoController {
     }
 
     // Métodos DELETE
-    @DeleteMapping("/excluir/{id}")
-    public ResponseEntity<EnderecoDTOResponse> deletar(@Valid @PathVariable Long id) {
-        return service.excluir(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<EnderecoDTOResponse> deletar(@PathVariable Long id) throws RecursoNaoEncontradoException {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }
