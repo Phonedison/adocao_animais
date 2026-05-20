@@ -14,6 +14,7 @@ public class OpenAPIConfig {
     @Bean
     public OpenAPI myOpenAPI() {
 
+        /* CONTATO */
         Contact contato = new Contact();
         contato.setEmail("lucasleal00100@gmail.com");
         contato.setName("Lucas da Silva");
@@ -26,11 +27,10 @@ public class OpenAPIConfig {
 
         /* MAIS INFO DA API */
         Info info = new Info()
-                .title("Trabalho Individual")
+                .title("API de Adoção de Pets")
+                .description("Atividade Prática individual de matéria de API Restful no Serratec")
                 .version("0.0")
                 .contact(contato)
-                // .description("Api blaba")
-                // .termsOfService("link")
                 .license(apacheLicense);
 
         return new OpenAPI().info(info);
