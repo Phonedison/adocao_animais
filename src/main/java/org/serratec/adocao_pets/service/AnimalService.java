@@ -15,6 +15,7 @@ import org.serratec.adocao_pets.enumerated.StatusAdocao;
 import org.serratec.adocao_pets.enumerated.Tamanho;
 import org.serratec.adocao_pets.exception.RecursoNaoEncontradoException;
 import org.serratec.adocao_pets.repository.AnimalRepository;
+import org.serratec.adocao_pets.repository.CaracteristicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class AnimalService {
 
     @Autowired
     private AnimalRepository animalRepository;
+
+    @Autowired
+    private static CaracteristicaRepository caracteristicaRepository;
 
     public static Animal toAnimal(AnimalDTORequest request) {
         Animal animal = new Animal();
@@ -37,13 +41,10 @@ public class AnimalService {
 
         if (request.caracteristicas() != null) {
             Set<Caracteristica> caracteristicas = request.caracteristicas().stream()
-                    .map(id -> {
-                        Caracteristica c = new Caracteristica();
-                        c.setId(id);
-                        return c;
-                    })
+                    .map(id -> caracteristicaRepository.findById(id)
+                            .orElseThrow(
+                                    () -> new RecursoNaoEncontradoException("Característica não encontrada: " + id)))
                     .collect(Collectors.toSet());
-            animal.setCaracteristicas(caracteristicas);
         }
         return animal;
     }
@@ -105,7 +106,7 @@ public class AnimalService {
                 throw new RecursoNaoEncontradoException("Nenhum animal com tamanho '" + tamanho + "' encontrado!");
             }
             return ResponseEntity.ok(animais);
-        } catch (RecursoNaoEncontradoException e) {
+        } catch (IllegalArgumentException e) {
             throw new RecursoNaoEncontradoException("Tamanho '" + tamanho + "' é inválido!");
         }
     }
@@ -122,7 +123,7 @@ public class AnimalService {
                 throw new RecursoNaoEncontradoException("Nenhum animal da espécie '" + especie + "' encontrado!");
             }
             return ResponseEntity.ok(animais);
-        } catch (RecursoNaoEncontradoException e) {
+        } catch (IllegalArgumentException e) {
             throw new RecursoNaoEncontradoException("Espécie '" + especie + "' é inválida!");
         }
     }
@@ -136,10 +137,10 @@ public class AnimalService {
                     .collect(Collectors.toList());
 
             if (animais.isEmpty()) {
-                throw new RecursoNaoEncontradoException("Nenhum animal do sexo '" + sexo + "' encontrado!");
+                throw new IllegalArgumentException("Nenhum animal do sexo '" + sexo + "' encontrado!");
             }
             return ResponseEntity.ok(animais);
-        } catch (RecursoNaoEncontradoException e) {
+        } catch (IllegalArgumentException e) {
             throw new RecursoNaoEncontradoException("Sexo '" + sexo + "' é inválido!");
         }
     }
