@@ -22,12 +22,12 @@ public class EnderecoService {
 
         Endereco endereco = new Endereco();
 
-        endereco.setRua(request.getRua());
-        endereco.setNumero(request.getNumero());
-        endereco.setBairro(request.getBairro());
-        endereco.setCidade(request.getCidade());
-        endereco.setEstado(request.getEstado());
-        endereco.setCep(request.getCep());
+        endereco.setRua(request.rua());
+        endereco.setNumero(request.numero());
+        endereco.setBairro(request.bairro());
+        endereco.setCidade(request.cidade());
+        endereco.setEstado(request.estado());
+        endereco.setCep(request.cep());
         return endereco;
     }
 
@@ -146,12 +146,12 @@ public class EnderecoService {
     public ResponseEntity<EnderecoDTOResponse> atualizar(Long id, EnderecoDTORequest request) {
         return enderecoRepository.findById(id).map(existe -> {
 
-            existe.setRua(request.getRua());
-            existe.setNumero(request.getNumero());
-            existe.setBairro(request.getBairro());
-            existe.setCidade(request.getCidade());
-            existe.setEstado(request.getEstado());
-            existe.setCep(request.getCep());
+            existe.setRua(request.rua());
+            existe.setNumero(request.numero());
+            existe.setBairro(request.bairro());
+            existe.setCidade(request.cidade());
+            existe.setEstado(request.estado());
+            existe.setCep(request.cep());
 
             Endereco salvo = enderecoRepository.save(existe);
             EnderecoDTOResponse response = toEnderecoResponse(salvo);

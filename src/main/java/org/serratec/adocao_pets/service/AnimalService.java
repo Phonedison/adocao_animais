@@ -27,16 +27,16 @@ public class AnimalService {
 
     public static Animal toAnimal(AnimalDTORequest request) {
         Animal animal = new Animal();
-        animal.setNome(request.getNome());
-        animal.setMesesVida(request.getMesesVida());
-        animal.setDescricao(request.getDescricao());
-        animal.setEspecie(request.getEspecie());
-        animal.setTamanho(request.getTamanho());
-        animal.setSexo(request.getSexo());
-        animal.setStatusAdocao(request.getStatusAdocao());
+        animal.setNome(request.nome());
+        animal.setMesesVida(request.mesesVida());
+        animal.setDescricao(request.descricao());
+        animal.setEspecie(request.especie());
+        animal.setTamanho(request.tamanho());
+        animal.setSexo(request.sexo());
+        animal.setStatusAdocao(request.statusAdocao());
 
-        if (request.getCaracteristicasIds() != null) {
-            Set<Caracteristica> caracteristicas = request.getCaracteristicasIds().stream()
+        if (request.caracteristicas() != null) {
+            Set<Caracteristica> caracteristicas = request.caracteristicas().stream()
                     .map(id -> {
                         Caracteristica c = new Caracteristica();
                         c.setId(id);
@@ -63,7 +63,7 @@ public class AnimalService {
             List<CaracteristicaDTOResponse> dto = animal.getCaracteristicas().stream()
                     .map(c -> new CaracteristicaDTOResponse(c.getId(), c.getDescricao()))
                     .collect(Collectors.toList());
-            response.setCaracteristicasIds(dto);
+            response.setCaracteristicas(dto);
         }
         return response;
     }
@@ -190,13 +190,13 @@ public class AnimalService {
     public ResponseEntity<AnimalDTOResponse> atualizar(Long id, AnimalDTORequest request) {
         return animalRepository.findById(id).map(existe -> {
 
-            existe.setNome(request.getNome());
-            existe.setMesesVida(request.getMesesVida());
-            existe.setDescricao(request.getDescricao());
-            existe.setEspecie(request.getEspecie());
-            existe.setTamanho(request.getTamanho());
-            existe.setSexo(request.getSexo());
-            existe.setStatusAdocao(request.getStatusAdocao());
+            existe.setNome(request.nome());
+            existe.setMesesVida(request.mesesVida());
+            existe.setDescricao(request.descricao());
+            existe.setEspecie(request.especie());
+            existe.setTamanho(request.tamanho());
+            existe.setSexo(request.sexo());
+            existe.setStatusAdocao(request.statusAdocao());
 
             Animal salvo = animalRepository.save(existe);
             AnimalDTOResponse response = toAnimalResponse(salvo);
