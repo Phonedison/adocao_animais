@@ -86,11 +86,13 @@ public class InteresseAdocaoService {
     public InteresseAdocaoDTOResponse salvar(InteresseAdocaoDTORequest request) {
         Optional<Pessoa> optionalPessoa = pessoaRepository.findById(request.pessoaId());
         if (optionalPessoa.isEmpty())
-            throw new RuntimeException("Pessoa com ID " + request.pessoaId() + " não encontrada no banco.");
+            throw new RecursoNaoEncontradoException(
+                    "Pessoa com ID " + request.pessoaId() + " não encontrada no banco.");
 
         Optional<Animal> optionalAnimal = animalRepository.findById(request.animalId());
         if (optionalAnimal.isEmpty())
-            throw new RuntimeException("Animal com ID " + request.animalId() + " não encontrado no banco.");
+            throw new RecursoNaoEncontradoException(
+                    "Animal com ID " + request.animalId() + " não encontrado no banco.");
 
         InteresseAdocao interesse = toInteresseAdocao(request, optionalPessoa.get(), optionalAnimal.get());
 
