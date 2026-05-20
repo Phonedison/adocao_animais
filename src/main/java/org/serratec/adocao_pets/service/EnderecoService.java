@@ -162,10 +162,11 @@ public class EnderecoService {
     }
 
     // Métodos DELETE
-    public boolean excluir(Long id) {
-        return enderecoRepository.findById(id).map(endereco -> {
-            enderecoRepository.delete(endereco);
-            return true;
-        }).orElse(false);
+    public void excluir(Long id) {
+        enderecoRepository.findById(id).ifPresentOrElse(
+                enderecoRepository::delete,
+                () -> {
+                    throw new RecursoNaoEncontradoException("Endereço com o ID " + id + " não foi encontrado.");
+                });
     }
 }
