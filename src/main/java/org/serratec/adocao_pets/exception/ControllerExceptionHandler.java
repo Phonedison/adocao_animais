@@ -22,10 +22,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         private final String regiao = "America/Sao_Paulo";
 
-        @Override
+        @Override // captura erros de validação do @Valid
         protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                        HttpHeaders headers, HttpStatusCode status, WebRequest request) { // captura erros de validação
-                                                                                          // do @Valid
+                        HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
                 List<String> erros = new ArrayList<>();
 
@@ -40,10 +39,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
         }
 
-        @ExceptionHandler(RecursoNaoEncontradoException.class)
-        public ResponseEntity<Object> handleRecursoNaoEncontrado( // captura quando um recurso não é achado no banco
-                                                                  // (erro
-                                                                  // 404)
+        @ExceptionHandler(RecursoNaoEncontradoException.class) // captura quando um recurso não é achado no banco(404)
+        public ResponseEntity<Object> handleRecursoNaoEncontrado(
                         RecursoNaoEncontradoException ex,
                         WebRequest request) {
 
@@ -58,15 +55,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 return handleExceptionInternal(ex, erroResposta, new HttpHeaders(), status, request);
         }
 
-        @ExceptionHandler(EnumValidationException.class)
-        public ResponseEntity<Object> handleEnumValidation(EnumValidationException ex, WebRequest request) { // captura
-                                                                                                             // as
-                                                                                                             // exceções
-                                                                                                             // personalizadas
-                                                                                                             // dos
-                                                                                                             // ENUM(erro
-                                                                                                             // 400)
-
+        @ExceptionHandler(EnumValidationException.class) // captura as exceções personalizadas dos ENUM (400)
+        public ResponseEntity<Object> handleEnumValidation(EnumValidationException ex, WebRequest request) {
                 HttpStatus status = HttpStatus.BAD_REQUEST;
                 List<String> erros = new ArrayList<>();
 
@@ -80,12 +70,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 return handleExceptionInternal(ex, erroResposta, new HttpHeaders(), status, request);
         }
 
-        @Override
+        @Override // método para capturar erros na inserção de valores no JSON no geral
         protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-                        HttpHeaders headers, HttpStatusCode status, WebRequest request) { // método para capturar erros
-                                                                                          // na inserção
-                                                                                          // de valores no JSON no geral
-
+                        HttpHeaders headers, HttpStatusCode status, WebRequest request) {
                 List<String> erros = List.of(ex.getMostSpecificCause().getMessage());
 
                 ErroResposta erroResposta = new ErroResposta(
@@ -97,11 +84,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
         }
 
-        @ExceptionHandler(Exception.class)
-        public ResponseEntity<Object> handleErroInesperado(Exception ex, WebRequest request) { // 500 - método para
-                                                                                               // captura
-                                                                                               // de erro no servidor
-
+        @ExceptionHandler(Exception.class) // método para captura de erro no servidor - 500
+        public ResponseEntity<Object> handleErroInesperado(Exception ex, WebRequest request) {
                 HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
                 List<String> erros = List.of("Ocorreu um erro interno inesperado no servidor. Tente mais tarde.");
 
