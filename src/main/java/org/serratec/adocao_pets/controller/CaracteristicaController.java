@@ -100,12 +100,24 @@ public class CaracteristicaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(salvas);
     }
 
+    @Operation(summary = "Alterar todas as propriedades da característica", description = "Atualiza completamente os dados de uma característica existente através do ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Característica atualizada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados informados inválidos"),
+            @ApiResponse(responseCode = "404", description = "Característica não encontrada"),
+            @ApiResponse(responseCode = "409", description = "Conflito ao atualizar os dados (ex: descrição duplicada)")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<CaracteristicaDTOResponse> atualizarTudo(@Valid @PathVariable Long id,
-            @Valid @RequestBody CaracteristicaDTORequest request) {
+            @Parameter(description = "ID da característica a ser atualizada", example = "1") @Valid @RequestBody CaracteristicaDTORequest request) {
         return service.atualizar(id, request);
     }
 
+    @Operation(summary = "Excluir uma característica", description = "Remove permanentemente o registro de uma característica do sistema.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Característica excluída com sucesso (No Content)"),
+            @ApiResponse(responseCode = "404", description = "Característica não encontrada para exclusão")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<EnderecoDTOResponse> deletar(@PathVariable Long id) throws RecursoNaoEncontradoException {
         service.excluir(id);
