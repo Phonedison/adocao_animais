@@ -212,7 +212,7 @@ public class AnimalService {
         animalRepository.findById(id).ifPresentOrElse(
                 animalRepository::delete,
                 () -> {
-                    throw new RecursoNaoEncontradoException("Endereço com o ID " + id + " não foi encontrado.");
+                    throw new RecursoNaoEncontradoException("Animal com o ID " + id + " não foi encontrado.");
                 });
     }
 }
