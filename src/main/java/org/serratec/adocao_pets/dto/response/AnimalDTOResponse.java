@@ -40,7 +40,7 @@ public class AnimalDTOResponse {
     Tamanho tamanho;
     Sexo sexo;
     StatusAdocao statusAdocao;
-    List<CaracteristicaDTOResponse> caracteristicasIds;
+    List<CaracteristicaDTOResponse> caracteristicas;
 
     public AnimalDTOResponse(Animal animal) {
         this.id = animal.getId();
@@ -53,7 +53,7 @@ public class AnimalDTOResponse {
         this.statusAdocao = animal.getStatusAdocao();
 
         if (animal.getCaracteristicas() != null) {
-            this.caracteristicasIds = animal.getCaracteristicas().stream()
+            this.caracteristicas = animal.getCaracteristicas().stream()
                     .map(caracteristica -> {
                         CaracteristicaDTOResponse dto = new CaracteristicaDTOResponse();
                         dto.setId(caracteristica.getId());
