@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.validation.Valid;
 
 @RestController
@@ -42,14 +40,17 @@ public class AnimalController {
         return service.buscar(id);
     }
 
-    @GetMapping("/nome/{nome}")
+    @GetMapping("/{nome}")
     public ResponseEntity<List<AnimalDTOResponse>> buscarNome(@Valid @PathVariable String nome)
             throws RecursoNaoEncontradoException {
         return service.buscarNome(nome);
     }
 
+    // implementar depois de forma mais organizada
+
     @GetMapping("/especie/{especie}")
     public ResponseEntity<List<AnimalDTOResponse>> buscarEspecie(
+
             @Valid @PathVariable String especie)
             throws RecursoNaoEncontradoException {
         return service.buscarEspecies(especie);
@@ -57,6 +58,7 @@ public class AnimalController {
 
     @GetMapping("/tamanho/{tamanho}")
     public ResponseEntity<List<AnimalDTOResponse>> buscarTamanho(
+
             @Valid @PathVariable String tamanho)
             throws RecursoNaoEncontradoException {
         return service.buscarTamanho(tamanho);
@@ -64,6 +66,7 @@ public class AnimalController {
 
     @GetMapping("/sexo/{sexo}")
     public ResponseEntity<List<AnimalDTOResponse>> buscarSexo(
+
             @Valid @PathVariable String sexo)
             throws RecursoNaoEncontradoException {
         return service.buscarSexo(sexo);
@@ -71,18 +74,18 @@ public class AnimalController {
 
     @GetMapping("/adocao/{adocao}")
     public ResponseEntity<List<AnimalDTOResponse>> buscarAdocao(
+
             @Valid @PathVariable String adocao)
             throws RecursoNaoEncontradoException {
         return service.buscarAdocao(adocao);
     }
 
     @GetMapping("/{id}/caracteristicas")
-    @JsonIgnoreProperties({ "animais" })
     public ResponseEntity<List<CaracteristicaDTOResponse>> listarCaracteristicas(@Valid @PathVariable Long id) {
         return service.listarCaracteristicas(id);
     }
 
-    @PostMapping("/salvar")
+    @PostMapping
     public ResponseEntity<AnimalDTOResponse> salvar(@Valid @RequestBody AnimalDTORequest request) {
         AnimalDTOResponse animalResponse = service.salvar(request);
 
@@ -102,13 +105,13 @@ public class AnimalController {
         return ResponseEntity.status(HttpStatus.CREATED).body(animaisResponse);
     }
 
-    @PutMapping("/atualizar/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<AnimalDTOResponse> atualizarTudo(@Valid @PathVariable Long id,
             @Valid @RequestBody AnimalDTORequest request) {
         return service.atualizar(id, request);
     }
 
-    @DeleteMapping("/excluir/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<AnimalDTOResponse> deletar(@Valid @PathVariable Long id) {
         return service.excluir(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
