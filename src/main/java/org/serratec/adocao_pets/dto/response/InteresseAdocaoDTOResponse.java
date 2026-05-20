@@ -17,15 +17,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonPropertyOrder({
-        "id",
-        "pessoa_id",
-        "animal_id",
         "dataPedido",
         "statusProcesso",
+        "pessoa",
+        "animal",
         "observacoes" })
 public class InteresseAdocaoDTOResponse {
-    private Long pessoaId;
-    private Long animalId;
+    private Long id;
     private PessoaDTOResponse pessoa;
     private AnimalDTOResponse animal;
     private LocalDateTime dataPedido;
@@ -33,8 +31,6 @@ public class InteresseAdocaoDTOResponse {
     private String observacoes;
 
     public InteresseAdocaoDTOResponse(InteresseAdocao interesse) {
-        this.pessoaId = interesse.getId().getPessoaId();
-        this.animalId = interesse.getId().getAnimalId();
         this.dataPedido = interesse.getDataPedido();
         this.statusProcesso = interesse.getStatusProcesso();
         this.observacoes = interesse.getObservacoes();
