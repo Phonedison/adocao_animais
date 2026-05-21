@@ -18,40 +18,14 @@ public class EnderecoService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    public static Endereco toEndereco(EnderecoDTORequest request) {
-
-        Endereco endereco = new Endereco();
-
-        endereco.setRua(request.rua());
-        endereco.setNumero(request.numero());
-        endereco.setBairro(request.bairro());
-        endereco.setCidade(request.cidade());
-        endereco.setEstado(request.estado());
-        endereco.setCep(request.cep());
-        return endereco;
-    }
-
-    public static EnderecoDTOResponse toEnderecoResponse(Endereco endereco) {
-
-        EnderecoDTOResponse response = new EnderecoDTOResponse();
-        response.setId(endereco.getId());
-        response.setRua(endereco.getRua());
-        response.setNumero(endereco.getNumero());
-        response.setBairro(endereco.getBairro());
-        response.setCidade(endereco.getCidade());
-        response.setEstado(endereco.getEstado());
-        response.setCep(endereco.getCep());
-        return response;
-    }
-
     public List<EnderecoDTOResponse> listarTodos() {
         List<Endereco> enderecos = enderecoRepository.findAll();
-        return enderecos.stream().map(EnderecoService::toEnderecoResponse).toList();
+        return enderecos.stream().map(EnderecoDTOResponse::toEnderecoResponse).toList();
     }
 
     public ResponseEntity<EnderecoDTOResponse> buscar(Long id) throws RecursoNaoEncontradoException {
         return enderecoRepository.findById(id)
-                .map(EnderecoService::toEnderecoResponse)
+                .map(EnderecoDTOResponse::toEnderecoResponse)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Endereco de ID '" + id + "' não encontrado!"));
     }
@@ -59,7 +33,7 @@ public class EnderecoService {
     public ResponseEntity<List<EnderecoDTOResponse>> buscarRua(String rua) throws RecursoNaoEncontradoException {
         List<EnderecoDTOResponse> endereco = enderecoRepository.findByRuaContainingIgnoreCase(rua)
                 .stream()
-                .map(EnderecoService::toEnderecoResponse)
+                .map(EnderecoDTOResponse::toEnderecoResponse)
                 .collect(Collectors.toList());
 
         if (endereco.isEmpty()) {
@@ -71,7 +45,7 @@ public class EnderecoService {
     public ResponseEntity<List<EnderecoDTOResponse>> buscarNumero(String numero) throws RecursoNaoEncontradoException {
         List<EnderecoDTOResponse> endereco = enderecoRepository.findByNumeroContainingIgnoreCase(numero)
                 .stream()
-                .map(EnderecoService::toEnderecoResponse)
+                .map(EnderecoDTOResponse::toEnderecoResponse)
                 .collect(Collectors.toList());
 
         if (endereco.isEmpty()) {
@@ -83,7 +57,7 @@ public class EnderecoService {
     public ResponseEntity<List<EnderecoDTOResponse>> buscarBairro(String bairro) throws RecursoNaoEncontradoException {
         List<EnderecoDTOResponse> endereco = enderecoRepository.findByBairroContainingIgnoreCase(bairro)
                 .stream()
-                .map(EnderecoService::toEnderecoResponse)
+                .map(EnderecoDTOResponse::toEnderecoResponse)
                 .collect(Collectors.toList());
 
         if (endereco.isEmpty()) {
@@ -95,7 +69,7 @@ public class EnderecoService {
     public ResponseEntity<List<EnderecoDTOResponse>> buscarCidade(String cidade) throws RecursoNaoEncontradoException {
         List<EnderecoDTOResponse> endereco = enderecoRepository.findByCidadeContainingIgnoreCase(cidade)
                 .stream()
-                .map(EnderecoService::toEnderecoResponse)
+                .map(EnderecoDTOResponse::toEnderecoResponse)
                 .collect(Collectors.toList());
 
         if (endereco.isEmpty()) {
@@ -107,7 +81,7 @@ public class EnderecoService {
     public ResponseEntity<List<EnderecoDTOResponse>> buscarEstado(String estado) throws RecursoNaoEncontradoException {
         List<EnderecoDTOResponse> endereco = enderecoRepository.findByEstadoContainingIgnoreCase(estado)
                 .stream()
-                .map(EnderecoService::toEnderecoResponse)
+                .map(EnderecoDTOResponse::toEnderecoResponse)
                 .collect(Collectors.toList());
 
         if (endereco.isEmpty()) {
@@ -119,7 +93,7 @@ public class EnderecoService {
     public ResponseEntity<List<EnderecoDTOResponse>> buscarCep(String cep) throws RecursoNaoEncontradoException {
         List<EnderecoDTOResponse> endereco = enderecoRepository.findByCepContainingIgnoreCase(cep)
                 .stream()
-                .map(EnderecoService::toEnderecoResponse)
+                .map(EnderecoDTOResponse::toEnderecoResponse)
                 .collect(Collectors.toList());
 
         if (endereco.isEmpty()) {
@@ -130,16 +104,16 @@ public class EnderecoService {
 
     // Métodos para o POST
     public EnderecoDTOResponse salvar(EnderecoDTORequest request) {
-        Endereco endereco = toEndereco(request);
+        Endereco endereco = EnderecoDTORequest.toEndereco(request);
         Endereco salvo = enderecoRepository.save(endereco);
-        return toEnderecoResponse(salvo);
+        return EnderecoDTOResponse.toEnderecoResponse(salvo);
     }
 
     public List<EnderecoDTOResponse> salvarList(List<EnderecoDTORequest> request) {
-        List<Endereco> enderecos = request.stream().map(EnderecoService::toEndereco).toList();
+        List<Endereco> enderecos = request.stream().map(EnderecoDTORequest::toEndereco).toList();
         List<Endereco> salvo = enderecoRepository.saveAll(enderecos);
 
-        return salvo.stream().map(EnderecoService::toEnderecoResponse).toList();
+        return salvo.stream().map(EnderecoDTOResponse::toEnderecoResponse).toList();
     }
 
     // Métodos para o PUT
@@ -154,7 +128,7 @@ public class EnderecoService {
             existe.setCep(request.cep());
 
             Endereco salvo = enderecoRepository.save(existe);
-            EnderecoDTOResponse response = toEnderecoResponse(salvo);
+            EnderecoDTOResponse response = EnderecoDTOResponse.toEnderecoResponse(salvo);
 
             return ResponseEntity.ok(response);
 
