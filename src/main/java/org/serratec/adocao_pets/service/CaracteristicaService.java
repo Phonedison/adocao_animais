@@ -18,31 +18,19 @@ public class CaracteristicaService {
     @Autowired
     private CaracteristicaRepository caracteristicaRepository;
 
-    public static Caracteristica toCaracteristica(CaracteristicaDTORequest request) {
-        Caracteristica caracteristica = new Caracteristica();
-        caracteristica.setDescricao(request.descricao());
-
-        return caracteristica;
-    }
-
-    public static CaracteristicaDTOResponse toCaracteristicaResponse(Caracteristica caracteristica) {
-        CaracteristicaDTOResponse response = new CaracteristicaDTOResponse();
-
-        response.setId(caracteristica.getId());
-        response.setDescricao(caracteristica.getDescricao());
-
-        return response;
-    }
-
     // Métodos para o GETS
     public List<CaracteristicaDTOResponse> listarTodos() {
         List<Caracteristica> caracteristicas = caracteristicaRepository.findAll();
-        return caracteristicas.stream().map(CaracteristicaService::toCaracteristicaResponse).toList();
+        return caracteristicas.stream().map(c -> CaracteristicaDTOResponse.toCaracteristicaResponse(c)).toList();
     }
 
     public ResponseEntity<CaracteristicaDTOResponse> buscar(Long id) throws RecursoNaoEncontradoException {
         return caracteristicaRepository.findById(id)
-                .map(CaracteristicaService::toCaracteristicaResponse)
+                // estranhamente a classe não consegue se referenciar utilizando ::this, gerando
+                // erro de referencia,precisei utilizar o modo lambda normal para corrigir esse
+                // erro.
+                .map(c -> CaracteristicaDTOResponse.toCaracteristicaResponse(
+                        c))
                 .map(ResponseEntity::ok)
                 .orElseThrow(
                         () -> new RecursoNaoEncontradoException("Caracteristica de ID '" + id + "' não encontrado!"));
@@ -53,7 +41,8 @@ public class CaracteristicaService {
         List<CaracteristicaDTOResponse> caracteristicas = caracteristicaRepository
                 .findByDescricaoContainingIgnoreCase(descricao)
                 .stream()
-                .map(CaracteristicaService::toCaracteristicaResponse)
+                .map(c -> CaracteristicaDTOResponse.toCaracteristicaResponse(
+                        c))
                 .collect(Collectors.toList());
 
         if (caracteristicas.isEmpty()) {
@@ -65,15 +54,17 @@ public class CaracteristicaService {
 
     // Métodos para o POST
     public CaracteristicaDTOResponse salvar(CaracteristicaDTORequest request) {
-        Caracteristica caracteristica = toCaracteristica(request);
+        Caracteristica caracteristica = CaracteristicaDTORequest.toCaracteristica(request);
         Caracteristica salvo = caracteristicaRepository.save(caracteristica);
-        return toCaracteristicaResponse(salvo);
+        return CaracteristicaDTOResponse.toCaracteristicaResponse(salvo);
     }
 
     public List<CaracteristicaDTOResponse> salvarList(List<CaracteristicaDTORequest> request) {
-        List<Caracteristica> caracteristicas = request.stream().map(CaracteristicaService::toCaracteristica).toList();
+        List<Caracteristica> caracteristicas = request.stream()
+                .map(dtoRequest -> CaracteristicaDTORequest.toCaracteristica(dtoRequest))
+                .toList();
         List<Caracteristica> salvo = caracteristicaRepository.saveAll(caracteristicas);
-        return salvo.stream().map(CaracteristicaService::toCaracteristicaResponse).toList();
+        return salvo.stream().map(c -> CaracteristicaDTOResponse.toCaracteristicaResponse(c)).toList();
     }
 
     // Métodos para o PUT
@@ -84,7 +75,7 @@ public class CaracteristicaService {
                 existe.setDescricao(request.descricao());
 
             Caracteristica salvo = caracteristicaRepository.save(existe);
-            CaracteristicaDTOResponse response = toCaracteristicaResponse(salvo);
+            CaracteristicaDTOResponse response = CaracteristicaDTOResponse.toCaracteristicaResponse(salvo);
 
             return ResponseEntity.ok(response);
 
