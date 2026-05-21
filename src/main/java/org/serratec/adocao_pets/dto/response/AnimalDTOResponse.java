@@ -64,4 +64,24 @@ public class AnimalDTOResponse {
         }
     }
 
+    public static AnimalDTOResponse toAnimalResponse(Animal animal) {
+        AnimalDTOResponse response = new AnimalDTOResponse();
+        response.setId(animal.getId());
+        response.setNome(animal.getNome());
+        response.setMesesVida(animal.getMesesVida());
+        response.setDescricao(animal.getDescricao());
+        response.setEspecie(animal.getEspecie());
+        response.setTamanho(animal.getTamanho());
+        response.setSexo(animal.getSexo());
+        response.setStatusAdocao(animal.getStatusAdocao());
+
+        if (animal.getCaracteristicas() != null) {
+            List<CaracteristicaDTOResponse> dto = animal.getCaracteristicas().stream()
+                    .map(c -> new CaracteristicaDTOResponse(c.getId(), c.getDescricao()))
+                    .collect(Collectors.toList());
+            response.setCaracteristicas(dto);
+        }
+        return response;
+    }
+
 }
