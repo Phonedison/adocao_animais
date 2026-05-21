@@ -29,45 +29,12 @@ public class InteresseAdocaoService {
     @Autowired
     private AnimalRepository animalRepository;
 
-    public static InteresseAdocao toInteresseAdocao(InteresseAdocaoDTORequest request,
-            Pessoa pessoa,
-            Animal animal) {
-
-        InteresseAdocao interesse = new InteresseAdocao();
-
-        interesse.setPessoa(pessoa);
-        interesse.setAnimal(animal);
-
-        interesse.setId(new InteresseAdocaoPK(pessoa.getId(), animal.getId()));
-        interesse.setDataPedido(request.dataPedido());
-        interesse.setStatusProcesso(request.statusProcesso());
-        interesse.setObservacoes(request.observacoes());
-
-        return interesse;
-    }
-
-    public static InteresseAdocaoDTOResponse toInteresseAdocaoResponse(InteresseAdocao interesse) {
-        InteresseAdocaoDTOResponse response = new InteresseAdocaoDTOResponse();
-
-        if (interesse.getPessoa() != null)
-            response.setPessoa(PessoaService.toPessoaResponse(interesse.getPessoa()));
-
-        if (interesse.getAnimal() != null)
-            response.setAnimal(AnimalService.toAnimalResponse(interesse.getAnimal()));
-
-        response.setDataPedido(interesse.getDataPedido());
-        response.setStatusProcesso(interesse.getStatusProcesso());
-        response.setObservacoes(interesse.getObservacoes());
-
-        return response;
-    }
-
     public List<InteresseAdocaoDTOResponse> listarTodos() {
         List<InteresseAdocao> interesses = repository.findAll();
         List<InteresseAdocaoDTOResponse> responses = new ArrayList<>();
 
         for (InteresseAdocao interesse : interesses) {
-            responses.add(toInteresseAdocaoResponse(interesse));
+            responses.add(InteresseAdocaoDTOResponse.toInteresseAdocaoResponse(interesse));
         }
 
         return responses;
@@ -80,7 +47,7 @@ public class InteresseAdocaoService {
         if (opcao.isEmpty())
             throw new RecursoNaoEncontradoException("Interesse de adoção não encontrado para os IDs informados!");
 
-        return toInteresseAdocaoResponse(opcao.get());
+        return InteresseAdocaoDTOResponse.toInteresseAdocaoResponse(opcao.get());
     }
 
     public InteresseAdocaoDTOResponse salvar(InteresseAdocaoDTORequest request) {
@@ -94,10 +61,11 @@ public class InteresseAdocaoService {
             throw new RecursoNaoEncontradoException(
                     "Animal com ID " + request.animalId() + " não encontrado no banco.");
 
-        InteresseAdocao interesse = toInteresseAdocao(request, optionalPessoa.get(), optionalAnimal.get());
+        InteresseAdocao interesse = InteresseAdocaoDTORequest.toInteresseAdocao(request, optionalPessoa.get(),
+                optionalAnimal.get());
 
         InteresseAdocao salvo = repository.save(interesse);
-        return toInteresseAdocaoResponse(salvo);
+        return InteresseAdocaoDTOResponse.toInteresseAdocaoResponse(salvo);
     }
 
     public List<InteresseAdocaoDTOResponse> salvarList(List<InteresseAdocaoDTORequest> requestList) {
@@ -131,13 +99,13 @@ public class InteresseAdocaoService {
                     .orElseThrow(() -> new IllegalArgumentException(
                             "Erro no lote: O Animal com ID " + dto.animalId() + " não existe no banco de dados!"));
 
-            interesses.add(toInteresseAdocao(dto, pessoa, animal));
+            interesses.add(InteresseAdocaoDTORequest.toInteresseAdocao(dto, pessoa, animal));
         }
 
         List<InteresseAdocao> salvos = repository.saveAll(interesses);
         List<InteresseAdocaoDTOResponse> responses = new ArrayList<>();
         for (InteresseAdocao i : salvos) {
-            responses.add(toInteresseAdocaoResponse(i));
+            responses.add(InteresseAdocaoDTOResponse.toInteresseAdocaoResponse(i));
         }
 
         return responses;
@@ -161,8 +129,9 @@ public class InteresseAdocaoService {
         if (optionalAnimal.isEmpty())
             throw new RecursoNaoEncontradoException("Animal não encontrado.");
 
-        InteresseAdocao interesse = toInteresseAdocao(request, optionalPessoa.get(), optionalAnimal.get());
+        InteresseAdocao interesse = InteresseAdocaoDTORequest
+                .toInteresseAdocao(request, optionalPessoa.get(), optionalAnimal.get());
         InteresseAdocao atualizado = repository.save(interesse);
-        return toInteresseAdocaoResponse(atualizado);
+        return InteresseAdocaoDTOResponse.toInteresseAdocaoResponse(atualizado);
     }
 }
