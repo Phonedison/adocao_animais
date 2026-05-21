@@ -29,59 +29,15 @@ public class AnimalService {
     @Autowired
     private static CaracteristicaRepository caracteristicaRepository;
 
-    public static Animal toAnimal(AnimalDTORequest request) {
-        Animal animal = new Animal();
-        animal.setNome(request.nome());
-        animal.setMesesVida(request.mesesVida());
-        animal.setDescricao(request.descricao());
-        animal.setEspecie(request.especie());
-        animal.setTamanho(request.tamanho());
-        animal.setSexo(request.sexo());
-        animal.setStatusAdocao(request.statusAdocao());
-
-        if (request.caracteristicas() != null) {
-            Set<Caracteristica> caracteristicas = request.caracteristicas().stream()
-                    .map(id -> caracteristicaRepository.findById(id)
-                            .orElseThrow(
-                                    () -> new RecursoNaoEncontradoException(
-                                            "Característica de ID '" + id + "' não encontrada: ")))
-                    .collect(Collectors.toSet());
-
-            animal.setCaracteristicas(caracteristicas);
-        }
-
-        return animal;
-    }
-
-    public static AnimalDTOResponse toAnimalResponse(Animal animal) {
-        AnimalDTOResponse response = new AnimalDTOResponse();
-        response.setId(animal.getId());
-        response.setNome(animal.getNome());
-        response.setMesesVida(animal.getMesesVida());
-        response.setDescricao(animal.getDescricao());
-        response.setEspecie(animal.getEspecie());
-        response.setTamanho(animal.getTamanho());
-        response.setSexo(animal.getSexo());
-        response.setStatusAdocao(animal.getStatusAdocao());
-
-        if (animal.getCaracteristicas() != null) {
-            List<CaracteristicaDTOResponse> dto = animal.getCaracteristicas().stream()
-                    .map(c -> new CaracteristicaDTOResponse(c.getId(), c.getDescricao()))
-                    .collect(Collectors.toList());
-            response.setCaracteristicas(dto);
-        }
-        return response;
-    }
-
     // Métodos para o GETS
     public List<AnimalDTOResponse> listarTodos() {
         List<Animal> animais = animalRepository.findAll();
-        return animais.stream().map(AnimalService::toAnimalResponse).toList();
+        return animais.stream().map(AnimalDTOResponse::toAnimalResponse).toList();
     }
 
     public ResponseEntity<AnimalDTOResponse> buscar(Long id) throws RecursoNaoEncontradoException {
         return animalRepository.findById(id)
-                .map(AnimalService::toAnimalResponse)
+                .map(AnimalDTOResponse::toAnimalResponse)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Animal de ID '" + id + "' não encontrado!"));
     }
@@ -89,7 +45,7 @@ public class AnimalService {
     public ResponseEntity<List<AnimalDTOResponse>> buscarNome(String nome) throws RecursoNaoEncontradoException {
         List<AnimalDTOResponse> animais = animalRepository.findByNomeContainingIgnoreCase(nome)
                 .stream()
-                .map(AnimalService::toAnimalResponse)
+                .map(AnimalDTOResponse::toAnimalResponse)
                 .collect(Collectors.toList());
 
         if (animais.isEmpty()) {
@@ -103,7 +59,7 @@ public class AnimalService {
             Tamanho tamanhoEnum = Tamanho.valueOf(tamanho.toUpperCase());
             List<AnimalDTOResponse> animais = animalRepository.findByTamanho(tamanhoEnum)
                     .stream()
-                    .map(AnimalService::toAnimalResponse)
+                    .map(AnimalDTOResponse::toAnimalResponse)
                     .collect(Collectors.toList());
 
             if (animais.isEmpty()) {
@@ -120,7 +76,7 @@ public class AnimalService {
             Especie especieEnum = Especie.valueOf(especie.toUpperCase());
             List<AnimalDTOResponse> animais = animalRepository.findByEspecie(especieEnum)
                     .stream()
-                    .map(AnimalService::toAnimalResponse)
+                    .map(AnimalDTOResponse::toAnimalResponse)
                     .collect(Collectors.toList());
 
             if (animais.isEmpty()) {
@@ -137,7 +93,7 @@ public class AnimalService {
             Sexo sexoEnum = Sexo.valueOf(sexo.toUpperCase());
             List<AnimalDTOResponse> animais = animalRepository.findBySexo(sexoEnum)
                     .stream()
-                    .map(AnimalService::toAnimalResponse)
+                    .map(AnimalDTOResponse::toAnimalResponse)
                     .collect(Collectors.toList());
 
             if (animais.isEmpty()) {
@@ -154,7 +110,7 @@ public class AnimalService {
             StatusAdocao statusEnum = StatusAdocao.valueOf(adocao.toUpperCase());
             List<AnimalDTOResponse> animais = animalRepository.findByStatusAdocao(statusEnum)
                     .stream()
-                    .map(AnimalService::toAnimalResponse)
+                    .map(AnimalDTOResponse::toAnimalResponse)
                     .collect(Collectors.toList());
 
             if (animais.isEmpty()) {
@@ -185,10 +141,10 @@ public class AnimalService {
     }
 
     public List<AnimalDTOResponse> salvarList(List<AnimalDTORequest> request) {
-        List<Animal> animais = request.stream().map(AnimalService::toAnimal).toList();
+        List<Animal> animais = request.stream().map(AnimalDTORequest::toAnimal).toList();
         List<Animal> salvo = animalRepository.saveAll(animais);
 
-        return salvo.stream().map(AnimalService::toAnimalResponse).toList();
+        return salvo.stream().map(AnimalDTOResponse::toAnimalResponse).toList();
     }
 
     // Métodos para o PUT
@@ -204,7 +160,7 @@ public class AnimalService {
             existe.setStatusAdocao(request.statusAdocao());
 
             Animal salvo = animalRepository.save(existe);
-            AnimalDTOResponse response = toAnimalResponse(salvo);
+            AnimalDTOResponse response = AnimalDTOResponse.toAnimalResponse(salvo);
 
             return ResponseEntity.ok(response);
 
