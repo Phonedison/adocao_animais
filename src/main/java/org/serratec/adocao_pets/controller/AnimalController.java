@@ -48,7 +48,7 @@ public class AnimalController {
     @ApiResponse(responseCode = "200", description = "Animal encontrado")
     @ApiResponse(responseCode = "404", description = "Animal não encontrado")
     @GetMapping("/{id}")
-    public ResponseEntity<AnimalDTOResponse> buscar(
+    public AnimalDTOResponse buscar(
             @Parameter(description = "ID único do animal", example = "1") @PathVariable Long id)
             throws RecursoNaoEncontradoException {
         return service.buscar(id);
@@ -58,7 +58,7 @@ public class AnimalController {
     @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso")
     @ApiResponse(responseCode = "404", description = "Nenhum animal encontrado com este nome")
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<List<AnimalDTOResponse>> buscarNome(
+    public List<AnimalDTOResponse> buscarNome(
             @Parameter(description = "Nome do animal ou parte dele", example = "Rex") @Valid @PathVariable String nome)
             throws RecursoNaoEncontradoException {
         return service.buscarNome(nome);
@@ -68,7 +68,7 @@ public class AnimalController {
 
     @Operation(summary = "Buscar animais por espécie", description = "Retorna uma lista de animais filtrados pela espécie.")
     @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso")
-    public ResponseEntity<List<AnimalDTOResponse>> buscarEspecie(
+    public List<AnimalDTOResponse> buscarEspecie(
             @Parameter(description = "Espécie do animal", example = "CACHORRO") @Valid @PathVariable String especie)
             throws RecursoNaoEncontradoException {
         return service.buscarEspecies(especie);
@@ -77,7 +77,7 @@ public class AnimalController {
     @Operation(summary = "Buscar animais por tamanho", description = "Retorna uma lista de animais filtrados pelo porte/tamanho.")
     @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso")
     @GetMapping("/tamanho/{tamanho}")
-    public ResponseEntity<List<AnimalDTOResponse>> buscarTamanho(
+    public List<AnimalDTOResponse> buscarTamanho(
             @Parameter(description = "Tamanho/Porte do animal", example = "MEDIO") @Valid @PathVariable String tamanho)
             throws RecursoNaoEncontradoException {
         return service.buscarTamanho(tamanho);
@@ -86,7 +86,7 @@ public class AnimalController {
     @Operation(summary = "Buscar animais por sexo", description = "Retorna uma lista de animais filtrados pelo sexo.")
     @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso")
     @GetMapping("/sexo/{sexo}")
-    public ResponseEntity<List<AnimalDTOResponse>> buscarSexo(
+    public List<AnimalDTOResponse> buscarSexo(
             @Parameter(description = "Sexo do animal", example = "MACHO") @Valid @PathVariable String sexo)
             throws RecursoNaoEncontradoException {
         return service.buscarSexo(sexo);
@@ -95,7 +95,7 @@ public class AnimalController {
     @Operation(summary = "Buscar animais por status de adoção", description = "Filtra os animais pelos status: DISPONIVEL, ANALISE ou ADOTADO.")
     @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso")
     @GetMapping("/adocao/{adocao}")
-    public ResponseEntity<List<AnimalDTOResponse>> buscarAdocao(
+    public List<AnimalDTOResponse> buscarAdocao(
             @Parameter(description = "Status da adoção", example = "DISPONIVEL") @Valid @PathVariable String adocao)
             throws RecursoNaoEncontradoException {
         return service.buscarAdocao(adocao);
@@ -105,7 +105,7 @@ public class AnimalController {
     @ApiResponse(responseCode = "200", description = "Características listadas com sucesso")
     @ApiResponse(responseCode = "404", description = "Animal não encontrado")
     @GetMapping("/{id}/caracteristicas")
-    public ResponseEntity<List<CaracteristicaDTOResponse>> listarCaracteristicas(
+    public List<CaracteristicaDTOResponse> listarCaracteristicas(
             @Parameter(description = "ID do animal", example = "1") @Valid @PathVariable Long id) {
         return service.listarCaracteristicas(id);
     }
@@ -145,7 +145,7 @@ public class AnimalController {
             @ApiResponse(responseCode = "404", description = "Animal não encontrado")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<AnimalDTOResponse> atualizarTudo(
+    public AnimalDTOResponse atualizarTudo(
             @Parameter(description = "ID do animal a ser atualizado", example = "1") @Valid @PathVariable Long id,
             @Valid @RequestBody AnimalDTORequest request) {
         return service.atualizar(id, request);

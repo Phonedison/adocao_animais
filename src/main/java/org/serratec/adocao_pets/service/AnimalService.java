@@ -1,6 +1,9 @@
 package org.serratec.adocao_pets.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,8 +20,9 @@ import org.serratec.adocao_pets.exception.RecursoNaoEncontradoException;
 import org.serratec.adocao_pets.repository.AnimalRepository;
 import org.serratec.adocao_pets.repository.CaracteristicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AnimalService {
@@ -27,152 +31,179 @@ public class AnimalService {
     private AnimalRepository animalRepository;
 
     @Autowired
-    private static CaracteristicaRepository caracteristicaRepository;
+    private CaracteristicaRepository caracteristicaRepository;
 
     // Métodos para o GETS
+    @Transactional
     public List<AnimalDTOResponse> listarTodos() {
-        List<Animal> animais = animalRepository.findAll();
-        return animais.stream().map(AnimalDTOResponse::toAnimalResponse).toList();
+        return animalRepository.findAll().stream()
+                .map(AnimalDTOResponse::toAnimalResponse)
+                .toList();
     }
 
-    public ResponseEntity<AnimalDTOResponse> buscar(Long id) throws RecursoNaoEncontradoException {
+    @Transactional
+    public AnimalDTOResponse buscar(Long id) {
         return animalRepository.findById(id)
                 .map(AnimalDTOResponse::toAnimalResponse)
-                .map(ResponseEntity::ok)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Animal de ID '" + id + "' não encontrado!"));
     }
 
-    public ResponseEntity<List<AnimalDTOResponse>> buscarNome(String nome) throws RecursoNaoEncontradoException {
-        List<AnimalDTOResponse> animais = animalRepository.findByNomeContainingIgnoreCase(nome)
-                .stream()
-                .map(AnimalDTOResponse::toAnimalResponse)
-                .collect(Collectors.toList());
-
+    @Transactional
+    public List<AnimalDTOResponse> buscarNome(String nome) {
+        List<Animal> animais = animalRepository.findByNomeContainingIgnoreCase(nome);
         if (animais.isEmpty()) {
             throw new RecursoNaoEncontradoException("Nenhum animal com nome contendo '" + nome + "' encontrado!");
         }
-        return ResponseEntity.ok(animais);
+        return animais.stream().map(AnimalDTOResponse::toAnimalResponse).toList();
     }
 
-    public ResponseEntity<List<AnimalDTOResponse>> buscarTamanho(String tamanho) throws RecursoNaoEncontradoException {
+    @Transactional
+    public List<AnimalDTOResponse> buscarTamanho(String tamanho) {
         try {
             Tamanho tamanhoEnum = Tamanho.valueOf(tamanho.toUpperCase());
-            List<AnimalDTOResponse> animais = animalRepository.findByTamanho(tamanhoEnum)
-                    .stream()
-                    .map(AnimalDTOResponse::toAnimalResponse)
-                    .collect(Collectors.toList());
-
+            List<Animal> animais = animalRepository.findByTamanho(tamanhoEnum);
             if (animais.isEmpty()) {
                 throw new RecursoNaoEncontradoException("Nenhum animal com tamanho '" + tamanho + "' encontrado!");
             }
-            return ResponseEntity.ok(animais);
+            return animais.stream().map(AnimalDTOResponse::toAnimalResponse).toList();
         } catch (IllegalArgumentException e) {
             throw new RecursoNaoEncontradoException("Tamanho '" + tamanho + "' é inválido!");
         }
     }
 
-    public ResponseEntity<List<AnimalDTOResponse>> buscarEspecies(String especie) throws RecursoNaoEncontradoException {
+    @Transactional
+    public List<AnimalDTOResponse> buscarEspecies(String especie) {
         try {
             Especie especieEnum = Especie.valueOf(especie.toUpperCase());
-            List<AnimalDTOResponse> animais = animalRepository.findByEspecie(especieEnum)
-                    .stream()
-                    .map(AnimalDTOResponse::toAnimalResponse)
-                    .collect(Collectors.toList());
-
+            List<Animal> animais = animalRepository.findByEspecie(especieEnum);
             if (animais.isEmpty()) {
                 throw new RecursoNaoEncontradoException("Nenhum animal da espécie '" + especie + "' encontrado!");
             }
-            return ResponseEntity.ok(animais);
+            return animais.stream().map(AnimalDTOResponse::toAnimalResponse).toList();
         } catch (IllegalArgumentException e) {
             throw new RecursoNaoEncontradoException("Espécie '" + especie + "' é inválida!");
         }
     }
 
-    public ResponseEntity<List<AnimalDTOResponse>> buscarSexo(String sexo) throws RecursoNaoEncontradoException {
+    @Transactional
+    public List<AnimalDTOResponse> buscarSexo(String sexo) {
         try {
             Sexo sexoEnum = Sexo.valueOf(sexo.toUpperCase());
-            List<AnimalDTOResponse> animais = animalRepository.findBySexo(sexoEnum)
-                    .stream()
-                    .map(AnimalDTOResponse::toAnimalResponse)
-                    .collect(Collectors.toList());
-
+            List<Animal> animais = animalRepository.findBySexo(sexoEnum);
             if (animais.isEmpty()) {
-                throw new IllegalArgumentException("Nenhum animal do sexo '" + sexo + "' encontrado!");
+                throw new RecursoNaoEncontradoException("Nenhum animal do sexo '" + sexo + "' encontrado!");
             }
-            return ResponseEntity.ok(animais);
+            return animais.stream().map(AnimalDTOResponse::toAnimalResponse).toList();
         } catch (IllegalArgumentException e) {
             throw new RecursoNaoEncontradoException("Sexo '" + sexo + "' é inválido!");
         }
     }
 
-    public ResponseEntity<List<AnimalDTOResponse>> buscarAdocao(String adocao) throws RecursoNaoEncontradoException {
+    @Transactional
+    public List<AnimalDTOResponse> buscarAdocao(String adocao) {
         try {
             StatusAdocao statusEnum = StatusAdocao.valueOf(adocao.toUpperCase());
-            List<AnimalDTOResponse> animais = animalRepository.findByStatusAdocao(statusEnum)
-                    .stream()
-                    .map(AnimalDTOResponse::toAnimalResponse)
-                    .collect(Collectors.toList());
-
+            List<Animal> animais = animalRepository.findByStatusAdocao(statusEnum);
             if (animais.isEmpty()) {
                 throw new RecursoNaoEncontradoException(
                         "Nenhum animal com status de adoção '" + adocao + "' encontrado!");
             }
-            return ResponseEntity.ok(animais);
-        } catch (RecursoNaoEncontradoException e) {
+            return animais.stream().map(AnimalDTOResponse::toAnimalResponse).toList();
+        } catch (IllegalArgumentException e) {
             throw new RecursoNaoEncontradoException("Status de adoção '" + adocao + "' é inválido!");
         }
     }
 
-    public ResponseEntity<List<CaracteristicaDTOResponse>> listarCaracteristicas(Long id) {
-        return animalRepository.findById(id)
-                .map(animal -> {
-                    List<CaracteristicaDTOResponse> dtos = animal.getCaracteristicas().stream()
-                            .map(c -> new CaracteristicaDTOResponse(c.getId(), c.getDescricao())).toList();
-                    return ResponseEntity.ok(dtos);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    @Transactional
+    public List<CaracteristicaDTOResponse> listarCaracteristicas(Long id) {
+        Animal animal = animalRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Animal de ID '" + id + "' não encontrado!"));
+
+        return animal.getCaracteristicas().stream()
+                .map(c -> new CaracteristicaDTOResponse(c.getId(), c.getDescricao()))
+                .toList();
     }
 
     // Métodos para o POST
+    @Transactional
     public AnimalDTOResponse salvar(AnimalDTORequest request) {
-        Animal animal = toAnimal(request);
-        Animal salvo = animalRepository.save(animal);
-        return toAnimalResponse(salvo);
+        Set<Caracteristica> caracteristicasProntas = buscarCaracteristicasPorIds(request.caracteristicas());
+        Animal animal = request.toAnimal(caracteristicasProntas);
+        return AnimalDTOResponse.toAnimalResponse(animalRepository.save(animal));
     }
 
-    public List<AnimalDTOResponse> salvarList(List<AnimalDTORequest> request) {
-        List<Animal> animais = request.stream().map(AnimalDTORequest::toAnimal).toList();
-        List<Animal> salvo = animalRepository.saveAll(animais);
+    @Transactional
+    public List<AnimalDTOResponse> salvarList(List<AnimalDTORequest> requests) {
 
-        return salvo.stream().map(AnimalDTOResponse::toAnimalResponse).toList();
+        Set<Long> idsSet = new HashSet<>();
+        for (AnimalDTORequest r : requests) {
+            if (r.caracteristicas() != null) {
+                idsSet.addAll(r.caracteristicas());
+            }
+        }
+        List<Long> ids = new ArrayList<>(idsSet);
+
+        Map<Long, Caracteristica> mapaCaracteristicas = caracteristicaRepository.findAllById(ids).stream()
+                .collect(Collectors.toMap(Caracteristica::getId, c -> c));
+
+        List<Animal> animais = requests.stream()
+                .map(request -> {
+                    Set<Caracteristica> caracteristicasDoAnimal = new HashSet<>();
+                    if (request.caracteristicas() != null) {
+                        request.caracteristicas().forEach(id -> {
+                            Caracteristica c = mapaCaracteristicas.get(id);
+                            if (c == null)
+                                throw new RecursoNaoEncontradoException(
+                                        "Característica ID '" + id + "' não encontrada.");
+                            caracteristicasDoAnimal.add(c);
+                        });
+                    }
+                    return request.toAnimal(caracteristicasDoAnimal);
+                })
+                .toList();
+
+        return animalRepository.saveAll(animais).stream()
+                .map(AnimalDTOResponse::toAnimalResponse)
+                .toList();
     }
 
     // Métodos para o PUT
-    public ResponseEntity<AnimalDTOResponse> atualizar(Long id, AnimalDTORequest request) {
-        return animalRepository.findById(id).map(existe -> {
+    @Transactional
+    public AnimalDTOResponse atualizar(Long id, AnimalDTORequest request) {
+        Animal existe = animalRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Animal de ID '" + id + "' não encontrado!"));
 
-            existe.setNome(request.nome());
-            existe.setMesesVida(request.mesesVida());
-            existe.setDescricao(request.descricao());
-            existe.setEspecie(request.especie());
-            existe.setTamanho(request.tamanho());
-            existe.setSexo(request.sexo());
-            existe.setStatusAdocao(request.statusAdocao());
+        existe.setNome(request.nome());
+        existe.setMesesVida(request.mesesVida());
+        existe.setDescricao(request.descricao());
+        existe.setEspecie(request.especie());
+        existe.setTamanho(request.tamanho());
+        existe.setSexo(request.sexo());
+        existe.setStatusAdocao(request.statusAdocao());
 
-            Animal salvo = animalRepository.save(existe);
-            AnimalDTOResponse response = AnimalDTOResponse.toAnimalResponse(salvo);
+        if (request.caracteristicas() != null)
+            existe.setCaracteristicas(buscarCaracteristicasPorIds(request.caracteristicas()));
 
-            return ResponseEntity.ok(response);
-
-        }).orElse(ResponseEntity.notFound().build());
+        return AnimalDTOResponse.toAnimalResponse(animalRepository.save(existe));
     }
 
-    // Métodos DELETE
+    @Transactional
     public void excluir(Long id) {
-        animalRepository.findById(id).ifPresentOrElse(
-                animalRepository::delete,
-                () -> {
-                    throw new RecursoNaoEncontradoException("Animal com o ID " + id + " não foi encontrado.");
-                });
+        if (!animalRepository.existsById(id))
+            throw new RecursoNaoEncontradoException("Animal com o ID " + id + " não foi encontrado.");
+
+        animalRepository.deleteById(id);
+    }
+
+    private Set<Caracteristica> buscarCaracteristicasPorIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty())
+            return new HashSet<>();
+
+        List<Caracteristica> encontradas = caracteristicaRepository.findAllById(ids);
+
+        if (encontradas.size() != ids.size())
+            throw new RecursoNaoEncontradoException("Uma ou mais características informadas não foram encontradas.");
+
+        return new HashSet<>(encontradas);
     }
 }
