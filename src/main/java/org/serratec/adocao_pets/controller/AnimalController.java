@@ -65,7 +65,6 @@ public class AnimalController {
     }
 
     // implementar depois de forma mais organizada
-
     @Operation(summary = "Buscar animais por espécie", description = "Retorna uma lista de animais filtrados pela espécie.")
     @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso")
     public List<AnimalDTOResponse> buscarEspecie(
