@@ -131,7 +131,9 @@ public class InteresseAdocaoService {
 
         InteresseAdocao interesse = InteresseAdocaoDTORequest
                 .toInteresseAdocao(request, optionalPessoa.get(), optionalAnimal.get());
+
         InteresseAdocao atualizado = repository.save(interesse);
+
         return InteresseAdocaoDTOResponse.toInteresseAdocaoResponse(atualizado);
     }
 }
