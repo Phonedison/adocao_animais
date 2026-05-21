@@ -53,6 +53,7 @@ public class Animal {
     @Column(name = "meses_vida")
     private Integer mesesVida;
 
+    @NotBlank(message = "O campo não pode estar nulo")
     @Size(max = 100, message = "Campo com permissão de no máximo 100 caracteres")
     @Size(min = 10, message = "Campo com permissão de no mínimo 10 caracteres")
     private String descricao; // sobre o pet
@@ -73,7 +74,7 @@ public class Animal {
     private Sexo sexo;
 
     // referencia a ENUM status da adocao
-    @NotBlank(message = "Campo status deve ser informado como PENDENTE, APROVADO, REJEITADO ou CANCELADO")
+    @NotNull(message = "Campo status deve ser informado como PENDENTE, APROVADO, REJEITADO ou CANCELADO")
     @Enumerated(EnumType.STRING)
     private StatusAdocao statusAdocao;
 
