@@ -8,11 +8,15 @@ import org.serratec.adocao_pets.domain.InteresseAdocaoPK;
 import org.serratec.adocao_pets.domain.Pessoa;
 import org.serratec.adocao_pets.enumerated.StatusProcesso;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+
 public record InteresseAdocaoDTORequest(Long id, Long pessoaId,
         Long animalId,
-        LocalDateTime dataPedido,
-        StatusProcesso statusProcesso,
-        String observacoes) {
+        @PastOrPresent(message = "Data de pedido inválido.") LocalDateTime dataPedido,
+        @NotNull(message = "O status de adoção deve ser informado como PENDENTE, APROVADO, REJEITADO ou CANCELADO") StatusProcesso statusProcesso,
+        @NotBlank(message = "O campo não pode estar em branco") String observacoes) {
 
     public static InteresseAdocao toInteresseAdocao(InteresseAdocaoDTORequest request,
             Pessoa pessoa,
