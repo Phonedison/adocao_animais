@@ -58,22 +58,26 @@ public class Animal {
     private String descricao; // sobre o pet
 
     // referencia a ENUM especie
-    @NotNull(message = "A espécie deve ser informada")
+    @NotBlank(message = "Campo Especie deve ser informada como CACHORRO ou GATO")
+    @NotNull(message = "A espécie deve ser informada, informe como CACHORRO ou GATO")
     @Enumerated(EnumType.STRING)
     private Especie especie;
 
     // referencia a ENUM tamanho
-    @NotNull(message = "O status de adoção deve ser informado")
+    @NotBlank(message = "Campo tamanho deve ser informado como PEQUENO, MEDIO ou GRANDE")
+    @NotNull(message = "O status de adoção deve ser informado como PEQUENO, MEDIO ou GRANDE")
     @Enumerated(EnumType.STRING)
     private Tamanho tamanho;
 
     // referencia a ENUM sexo
-    @NotNull(message = "O sexo deve ser informado")
+    @NotBlank(message = "Campo sexo deve ser informado como MACHO ou FEMEA")
+    @NotNull(message = "O sexo deve ser informado como MACHO ou FEMEA")
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
 
     // referencia a ENUM status da adocao
-    @NotNull(message = "O status de adoção deve ser informado")
+    @NotNull(message = "O status de adoção deve ser informado como PENDENTE, APROVADO, REJEITADO ou CANCELADO")
+    @NotBlank(message = "Campo status deve ser informado como PENDENTE, APROVADO, REJEITADO ou CANCELADO")
     @Enumerated(EnumType.STRING)
     private StatusAdocao statusAdocao;
 
