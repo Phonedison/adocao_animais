@@ -9,6 +9,7 @@ import org.serratec.adocao_pets.enumerated.StatusProcesso;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,12 +29,25 @@ import lombok.Setter;
 })
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Schema(description = "Modelo de resposta detalhado contendo a intenção de adoção registrada")
 public class InteresseAdocaoDTOResponse {
+
+    @Schema(description = "Chave composta contendo os identificadores vinculados de Pessoa e Animal")
     private InteresseAdocaoPK id;
+
+    @Schema(description = "Dados resumidos da pessoa interessada na adoção")
     private PessoaDTOResponse pessoa;
+
+    @Schema(description = "Dados resumidos do animal escolhido para adoção")
     private AnimalDTOResponse animal;
+
+    @Schema(description = "Data e hora exata em que o pedido de adoção deu entrada no sistema", example = "2026-05-21T15:00:00")
     private LocalDateTime dataPedido;
+
+    @Schema(description = "Status atual da análise do processo de adoção", example = "PENDENTE")
     private StatusProcesso statusProcesso;
+
+    @Schema(description = "Justificativas ou observações anotadas na abertura do processo", example = "Possui espaço amplo em casa e já tem outro gatinho.")
     private String observacoes;
 
     public InteresseAdocaoDTOResponse(InteresseAdocao interesse) {

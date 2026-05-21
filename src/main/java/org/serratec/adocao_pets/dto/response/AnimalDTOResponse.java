@@ -12,6 +12,7 @@ import org.serratec.adocao_pets.enumerated.Tamanho;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,15 +34,34 @@ import lombok.Setter;
         "statusAdocao"
 })
 @JsonInclude(JsonInclude.Include.NON_NULL) // oculta parametros informados como null
+@Schema(description = "Modelo de resposta com os dados detalhados do animal")
 public class AnimalDTOResponse {
+
+    @Schema(description = "Identificador único gerado automaticamente pelo banco de dados", example = "1")
     Long id;
+
+    @Schema(description = "Nome do pet cadastrado", example = "Luna")
     String nome;
+
+    @Schema(description = "Idade do pet calculada ou informada em meses", example = "12")
     Integer mesesVida;
+
+    @Schema(description = "Breve descrição sobre a história, comportamento ou temperamento do pet", example = "Gatinha dócil que adora um colo e dormir na janela.")
     String descricao;
+
+    @Schema(description = "Espécie biológica do pet", example = "GATO")
     Especie especie;
+
+    @Schema(description = "Porte físico do animal", example = "PEQUENO")
     Tamanho tamanho;
+
+    @Schema(description = "Sexo biológico do animal", example = "FEMEA")
     Sexo sexo;
+
+    @Schema(description = "Situação atual do animal no sistema de adoção", example = "DISPONIVEL")
     StatusAdocao statusAdocao;
+
+    @Schema(description = "Lista contendo os detalhes das características associadas a este animal")
     List<CaracteristicaDTOResponse> caracteristicas;
 
     public AnimalDTOResponse(Animal animal) {
