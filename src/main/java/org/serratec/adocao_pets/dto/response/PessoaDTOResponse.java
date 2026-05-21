@@ -1,7 +1,6 @@
 package org.serratec.adocao_pets.dto.response;
 
 import org.serratec.adocao_pets.domain.Pessoa;
-import org.serratec.adocao_pets.service.EnderecoService;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
