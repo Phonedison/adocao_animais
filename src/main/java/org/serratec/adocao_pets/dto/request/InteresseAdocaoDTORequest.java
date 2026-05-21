@@ -8,7 +8,7 @@ import org.serratec.adocao_pets.domain.InteresseAdocaoPK;
 import org.serratec.adocao_pets.domain.Pessoa;
 import org.serratec.adocao_pets.enumerated.StatusProcesso;
 
-public record InteresseAdocaoDTORequest(Long pessoaId,
+public record InteresseAdocaoDTORequest(Long id, Long pessoaId,
         Long animalId,
         LocalDateTime dataPedido,
         StatusProcesso statusProcesso,
