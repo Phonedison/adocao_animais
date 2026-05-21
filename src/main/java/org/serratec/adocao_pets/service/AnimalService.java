@@ -173,13 +173,26 @@ public class AnimalService {
         Animal existe = animalRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Animal de ID '" + id + "' não encontrado!"));
 
-        existe.setNome(request.nome());
-        existe.setMesesVida(request.mesesVida());
-        existe.setDescricao(request.descricao());
-        existe.setEspecie(request.especie());
-        existe.setTamanho(request.tamanho());
-        existe.setSexo(request.sexo());
-        existe.setStatusAdocao(request.statusAdocao());
+        if (request.nome() != null && !request.nome().isBlank())
+            existe.setNome(request.nome());
+
+        if (request.mesesVida() != null && request.mesesVida() < 0)
+            existe.setMesesVida(request.mesesVida());
+
+        if (request.descricao() != null && !request.descricao().isBlank())
+            existe.setDescricao(request.descricao());
+
+        if (request.especie() != null)
+            existe.setEspecie(request.especie());
+
+        if (request.tamanho() != null)
+            existe.setTamanho(request.tamanho());
+
+        if (request.sexo() != null)
+            existe.setSexo(request.sexo());
+
+        if (request.statusAdocao() != null)
+            existe.setStatusAdocao(request.statusAdocao());
 
         if (request.caracteristicas() != null)
             existe.setCaracteristicas(buscarCaracteristicasPorIds(request.caracteristicas()));
