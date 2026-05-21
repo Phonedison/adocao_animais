@@ -84,4 +84,18 @@ public class AnimalDTOResponse {
         return response;
     }
 
+    public static AnimalDTOResponse toAnimalResponseResumo(Animal animal) {
+
+        AnimalDTOResponse response = new AnimalDTOResponse();
+        response.setNome(animal.getNome());
+        response.setMesesVida(animal.getMesesVida());
+        response.setEspecie(animal.getEspecie());
+        response.setTamanho(animal.getTamanho());
+        response.setSexo(animal.getSexo());
+        response.setDescricao(animal.getDescricao());
+        response.setStatusAdocao(animal.getStatusAdocao());
+        return response;
+
+    }
+
 }
