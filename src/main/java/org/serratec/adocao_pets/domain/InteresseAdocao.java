@@ -13,6 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -45,8 +47,10 @@ public class InteresseAdocao {
     @PastOrPresent(message = "Data de pedido inválido.")
     private LocalDateTime dataPedido;
 
+    @NotNull(message = "O status de adoção deve ser informado como PENDENTE, APROVADO, REJEITADO ou CANCELADO")
     @Enumerated(EnumType.STRING)
     private StatusProcesso statusProcesso;
 
+    @NotBlank(message = "O campo não pode estar em branco")
     private String observacoes;
 }

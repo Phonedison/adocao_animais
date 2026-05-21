@@ -32,24 +32,24 @@ public class Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O campo não pode estar em branco")
+    @NotBlank(message = "O campo NOME não pode estar em branco")
     private String nome;
 
     @Email(message = "Email inválido!")
-    @NotBlank(message = "O campo não pode estar em branco")
+    @NotBlank(message = "O campo EMAIL não pode estar em branco")
     private String email;
 
-    @NotBlank(message = "O campo não pode estar em branco")
+    @NotBlank(message = "O campo TELEFONE não pode estar em branco")
     @Pattern(regexp = "^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$", message = "O formato do telefone é inválido (Ex: (99) 99999-9999)")
     private String telefone;
 
-    @CPF
-    @NotBlank(message = "O campo não pode estar em branco")
+    @CPF(message = "Campo inválido!")
+    @NotBlank(message = "O campo CPF não pode estar em branco")
     @Column(unique = true)
     private String cpf;
 
     // referencia a classe Endereco
-    @NotNull(message = "O endereço não pode ser nulo")
+    @NotNull(message = "O campo ENDERECO não pode ser nulo")
     @ManyToOne // pode ser ligação N:1 ou 1:1 -> @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id") // vinculo
     private Endereco endereco;
