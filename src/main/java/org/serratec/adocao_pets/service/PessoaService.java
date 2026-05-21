@@ -45,8 +45,14 @@ public class PessoaService {
         Pessoa pessoa = request.toPessoa();
 
         if (request.endereco() != null && request.endereco().id() != null) {
-            Endereco enderecoRef = enderecoRepository.getReferenceById(request.endereco().id());
-            pessoa.setEndereco(enderecoRef);
+            Long enderecoId = request.endereco().id();
+
+            Endereco endereco = enderecoRepository.findById(enderecoId)
+                    .orElseThrow(() -> new RecursoNaoEncontradoException(
+                            "Endereço com ID '" + enderecoId
+                                    + "' não existe! É necessário cadastrar um novo endereço primeiro."));
+
+            pessoa.setEndereco(endereco);
         }
 
         return PessoaDTOResponse.toPessoaResponse(repository.save(pessoa));
@@ -58,7 +64,14 @@ public class PessoaService {
                 .map(request -> {
                     Pessoa pessoa = request.toPessoa();
                     if (request.endereco() != null && request.endereco().id() != null) {
-                        pessoa.setEndereco(enderecoRepository.getReferenceById(request.endereco().id()));
+                        Long enderecoId = request.endereco().id();
+
+                        Endereco endereco = enderecoRepository.findById(enderecoId)
+                                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                                        "Endereço com ID '" + enderecoId
+                                                + "' não existe! É necessário cadastrar um novo endereço primeiro."));
+
+                        pessoa.setEndereco(endereco);
                     }
                     return pessoa;
                 })
