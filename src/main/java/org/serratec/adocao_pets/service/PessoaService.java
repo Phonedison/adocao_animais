@@ -16,6 +16,8 @@ import org.serratec.adocao_pets.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class PessoaService {
 
@@ -25,47 +27,17 @@ public class PessoaService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    public static Pessoa toPessoa(PessoaDTORequest request, Map<Long, Endereco> enderecoMap) {
-        Pessoa pessoa = new Pessoa();
-        pessoa.setNome(request.nome());
-        pessoa.setEmail(request.email());
-        pessoa.setCpf(request.cpf());
-        pessoa.setTelefone(request.telefone());
-
-        if (request.endereco() != null) {
-            Endereco endereco = enderecoMap.get(request.endereco().id());
-            if (endereco != null) {
-                pessoa.setEndereco(endereco);
-            }
-        }
-
-        return pessoa;
-    }
-
-    public static PessoaDTOResponse toPessoaResponse(Pessoa pessoa) {
-        PessoaDTOResponse response = new PessoaDTOResponse();
-        response.setId(pessoa.getId());
-        response.setNome(pessoa.getNome());
-        response.setEmail(pessoa.getEmail());
-        response.setCpf(pessoa.getCpf());
-        response.setTelefone(pessoa.getTelefone());
-
-        if (pessoa.getEndereco() != null) {
-            response.setEndereco(EnderecoService.toEnderecoResponse(pessoa.getEndereco()));
-        }
-
-        return response;
-    }
-
+    @Transactional
     public List<PessoaDTOResponse> listarTodas() {
         return repository.findAll().stream()
-                .map(PessoaService::toPessoaResponse)
+                .map(PessoaDTOResponse::toPessoaResponse)
                 .toList();
     }
 
-    public PessoaDTOResponse buscarPorId(Long id) throws RecursoNaoEncontradoException {
+    @Transactional
+    public PessoaDTOResponse buscarPorId(Long id) {
         return repository.findById(id)
-                .map(PessoaService::toPessoaResponse)
+                .map(PessoaDTOResponse::toPessoaResponse)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa com ID '" + id + "' não encontrada!"));
     }
 
@@ -110,35 +82,48 @@ public class PessoaService {
     }
 
     public PessoaDTOResponse atualizar(Long id, PessoaDTORequest request) throws RecursoNaoEncontradoException {
-        return repository.findById(id).map(pessoaExistente -> {
-            pessoaExistente.setNome(request.nome());
-            pessoaExistente.setEmail(request.email());
-            pessoaExistente.setCpf(request.cpf());
-            pessoaExistente.setTelefone(request.telefone());
+        Pessoa pessoaExistente = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa com ID '" + id + "' não encontrada!"));
 
-            if (request.endereco() != null) {
-                EnderecoDTORequest enderecoRequest = request.endereco();
+        pessoaExistente.setNome(request.nome());
+        pessoaExistente.setEmail(request.email());
+        pessoaExistente.setCpf(request.cpf());
+        pessoaExistente.setTelefone(request.telefone());
 
-                if (pessoaExistente.getEndereco() != null) {
+        if (request.endereco() != null) {
+            EnderecoDTORequest encRequest = request.endereco();
 
-                    Endereco enderecoExistente = pessoaExistente.getEndereco();
-                    enderecoExistente.setRua(enderecoRequest.rua());
-                    enderecoExistente.setNumero(enderecoRequest.numero());
-                    enderecoExistente.setBairro(enderecoRequest.bairro());
-                    enderecoExistente.setCidade(enderecoRequest.cidade());
-                    enderecoExistente.setEstado(enderecoRequest.estado());
-                    enderecoExistente.setCep(enderecoRequest.cep());
-
-                } else if (enderecoRequest.id() != null) {
-                    enderecoRepository.findById(enderecoRequest.id())
-                            .ifPresent(pessoaExistente::setEndereco);
-                }
+            // 🎯 Se foi enviado o ID do endereço, buscamos ele e vinculamos diretamente à
+            // pessoa
+            if (encRequest.id() != null) {
+                Endereco novoEndereco = enderecoRepository.findById(encRequest.id())
+                        .orElseThrow(
+                                () -> new RuntimeException("Endereço com ID " + encRequest.id() + " não encontrado!"));
+                pessoaExistente.setEndereco(novoEndereco);
             }
+            // Se não foi enviado ID, mas a pessoa já tem um endereço associado, atualizamos
+            // os campos de texto dele
+            else if (pessoaExistente.getEndereco() != null) {
+                atualizarCampos(pessoaExistente.getEndereco(), encRequest);
+            }
+        }
 
-            Pessoa atualizada = repository.save(pessoaExistente);
-            return toPessoaResponse(atualizada);
-        }).orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa com ID '" + id + "' não encontrada!"));
+        return toPessoaResponse(repository.save(pessoaExistente));
+    }
 
+    private void atualizarCampos(Endereco destino, EnderecoDTORequest origem) {
+        if (origem.rua() != null)
+            destino.setRua(origem.rua());
+        if (origem.numero() != null)
+            destino.setNumero(origem.numero());
+        if (origem.bairro() != null)
+            destino.setBairro(origem.bairro());
+        if (origem.cidade() != null)
+            destino.setCidade(origem.cidade());
+        if (origem.estado() != null)
+            destino.setEstado(origem.estado());
+        if (origem.cep() != null)
+            destino.setCep(origem.cep());
     }
 
     public void deletar(Long id) {
@@ -148,5 +133,4 @@ public class PessoaService {
                     throw new RecursoNaoEncontradoException("Pessoa com o ID " + id + " não foi encontrado.");
                 });
     }
-
 }
