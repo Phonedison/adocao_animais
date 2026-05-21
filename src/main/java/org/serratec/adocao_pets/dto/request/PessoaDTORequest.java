@@ -1,8 +1,15 @@
 package org.serratec.adocao_pets.dto.request;
 
-public record PessoaDTORequest(String nome,
-        String email,
-        String telefone,
-        String cpf,
-        EnderecoDTORequest endereco) {
+import org.serratec.adocao_pets.domain.Pessoa;
+
+public record PessoaDTORequest(String nome, String email, String cpf, String telefone, EnderecoDTORequest endereco) {
+
+        public Pessoa toPessoa() {
+                Pessoa pessoa = new Pessoa();
+                pessoa.setNome(this.nome());
+                pessoa.setEmail(this.email());
+                pessoa.setCpf(this.cpf());
+                pessoa.setTelefone(this.telefone());
+                return pessoa;
+        }
 }
