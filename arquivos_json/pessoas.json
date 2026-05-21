@@ -1,0 +1,92 @@
+[
+  {
+    "nome": "Carlos Silva",
+    "email": "carlos@email.com",
+    "cpf": "334.597.850-47",
+    "telefone": "(24) 99123-4567",
+    "endereco": {
+      "id": 1
+    }
+  },
+  {
+    "nome": "Ana Souza",
+    "email": "ana@email.com",
+    "cpf": "802.332.400-47",
+    "telefone": "(24) 99234-5678",
+    "endereco": {
+      "id": 2
+    }
+  },
+  {
+    "nome": "Marcos Oliveira",
+    "email": "marcos@email.com",
+    "cpf": "977.823.280-63",
+    "telefone": "(24) 99345-6789",
+    "endereco": {
+      "id": 3
+    }
+  },
+  {
+    "nome": "Julia Lima",
+    "email": "julia@email.com",
+    "cpf": "432.838.700-63",
+    "telefone": "(24) 99456-7890",
+    "endereco": {
+      "id": 4
+    }
+  },
+  {
+    "nome": "Roberto Santos",
+    "email": "roberto@email.com",
+    "cpf": "747.285.240-60",
+    "telefone": "(24) 99567-8901",
+    "endereco": {
+      "id": 5
+    }
+  },
+  {
+    "nome": "Mariana Costa",
+    "email": "mariana@email.com",
+    "cpf": "457.174.720-99",
+    "telefone": "(24) 99678-9012",
+    "endereco": {
+      "id": 6
+    }
+  },
+  {
+    "nome": "Paulo Rocha",
+    "email": "paulo@email.com",
+    "cpf": "792.476.030-05",
+    "telefone": "(24) 99789-0123",
+    "endereco": {
+      "id": 7
+    }
+  },
+  {
+    "nome": "Camila Alves",
+    "email": "camila@email.com",
+    "cpf": "760.226.430-40",
+    "telefone": "(24) 99890-1234",
+    "endereco": {
+      "id": 8
+    }
+  },
+  {
+    "nome": "Lucas Martins",
+    "email": "lucas@email.com",
+    "cpf": "698.485.230-73",
+    "telefone": "(24) 99012-3456",
+    "endereco": {
+      "id": 9
+    }
+  },
+  {
+    "nome": "Beatriz Gomez",
+    "email": "beatriz@email.com",
+    "cpf": "620.550.560-69",
+    "telefone": "(24) 99111-2233",
+    "endereco": {
+      "id": 10
+    }
+  }
+]

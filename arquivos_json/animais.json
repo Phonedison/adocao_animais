@@ -1,0 +1,102 @@
+[
+  {
+    "nome": "Max",
+    "especie": "CACHORRO",
+    "sexo": "MACHO",
+    "mesesVida": 24,
+    "tamanho": "MEDIO",
+    "statusAdocao": "DISPONIVEL",
+    "descricao": "Cão super ativo, ideal para quem gosta de correr.",
+    "caracteristicas": [1, 4, 10]
+  },
+  {
+    "nome": "Luna",
+    "especie": "GATO",
+    "sexo": "FEMEA",
+    "mesesVida": 12,
+    "tamanho": "PEQUENO",
+    "statusAdocao": "DISPONIVEL",
+    "descricao": "Gatinha dócil que adora um colo e dormir na janela.",
+    "caracteristicas": [1, 5, 9]
+  },
+  {
+    "nome": "Thor",
+    "especie": "CACHORRO",
+    "sexo": "MACHO",
+    "mesesVida": 36,
+    "tamanho": "GRANDE",
+    "statusAdocao": "DISPONIVEL",
+    "descricao": "Excelente cão de guarda, mas muito carinhoso com a família.",
+    "caracteristicas": [3, 6, 10]
+  },
+  {
+    "nome": "Bella",
+    "especie": "CACHORRO",
+    "sexo": "FEMEA",
+    "mesesVida": 8,
+    "tamanho": "PEQUENO",
+    "statusAdocao": "DISPONIVEL",
+    "descricao": "Filhote cheia de energia, adora morder brinquedos de borracha.",
+    "caracteristicas": [2, 4, 9]
+  },
+  {
+    "nome": "Mel",
+    "especie": "GATO",
+    "sexo": "FEMEA",
+    "mesesVida": 6,
+    "tamanho": "PEQUENO",
+    "statusAdocao": "DISPONIVEL",
+    "descricao": "Calma, silenciosa e convive muito bem com outros felinos.",
+    "caracteristicas": [1, 7]
+  },
+  {
+    "nome": "Rex",
+    "especie": "CACHORRO",
+    "sexo": "MACHO",
+    "mesesVida": 48,
+    "tamanho": "GRANDE",
+    "statusAdocao": "DISPONIVEL",
+    "descricao": "Precisa de quintal grande. Muito brincalhão e forte.",
+    "caracteristicas": [3, 8, 10]
+  },
+  {
+    "nome": "Mia",
+    "especie": "GATO",
+    "sexo": "FEMEA",
+    "mesesVida": 18,
+    "tamanho": "PEQUENO",
+    "statusAdocao": "DISPONIVEL",
+    "descricao": "Companheira perfeita para quem trabalha em Home Office.",
+    "caracteristicas": [2, 5, 9]
+  },
+  {
+    "nome": "Toby",
+    "especie": "CACHORRO",
+    "sexo": "MACHO",
+    "mesesVida": 14,
+    "tamanho": "MEDIO",
+    "statusAdocao": "DISPONIVEL",
+    "descricao": "Sociável, se dá bem com crianças e outros cães.",
+    "caracteristicas": [1, 4, 9]
+  },
+  {
+    "nome": "Pipoca",
+    "especie": "CACHORRO",
+    "sexo": "FEMEA",
+    "mesesVida": 10,
+    "tamanho": "PEQUENO",
+    "statusAdocao": "DISPONIVEL",
+    "descricao": "Pequena e elétrica, adora passear na coleira.",
+    "caracteristicas": [2, 7, 10]
+  },
+  {
+    "nome": "Oliver",
+    "especie": "GATO",
+    "sexo": "MACHO",
+    "mesesVida": 20,
+    "tamanho": "MEDIO",
+    "statusAdocao": "DISPONIVEL",
+    "descricao": "Gato independente, mas que adora um sachê no fim do dia.",
+    "caracteristicas": [2, 6]
+  }
+]

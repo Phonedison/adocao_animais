@@ -1,0 +1,72 @@
+[
+  {
+    "pessoaId": 1,
+    "animalId": 9,
+    "observacoes": "Possui quintal grande e coberto.",
+    "dataPedido": "2026-05-15T09:00:00",
+    "statusProcesso": "PENDENTE"
+  },
+  {
+    "pessoaId": 2,
+    "animalId": 8,
+    "observacoes": "Já tem outro cãozinho em casa para fazer companhia.",
+    "dataPedido": "2026-05-16T10:30:00",
+    "statusProcesso": "APROVADO"
+  },
+  {
+    "pessoaId": 3,
+    "animalId": 7,
+    "observacoes": "Mora em apartamento, mas o condomínio permite pets.",
+    "dataPedido": "2026-05-16T14:15:00",
+    "statusProcesso": "CANCELADO"
+  },
+  {
+    "pessoaId": 4,
+    "animalId": 6,
+    "observacoes": "Trabalha em home office e tem bastante tempo livre.",
+    "dataPedido": "2026-05-17T08:45:00",
+    "statusProcesso": "PENDENTE"
+  },
+  {
+    "pessoaId": 5,
+    "animalId": 10,
+    "observacoes": "Procura um animal calmo para companhia de idoso.",
+    "dataPedido": "2026-05-17T16:20:00",
+    "statusProcesso": "REJEITADO"
+  },
+  {
+    "pessoaId": 6,
+    "animalId": 4,
+    "observacoes": "A casa possui telas de proteção em todas as janelas.",
+    "dataPedido": "2026-05-18T11:00:00",
+    "statusProcesso": "PENDENTE"
+  },
+  {
+    "pessoaId": 7,
+    "animalId": 3,
+    "observacoes": "Disponível para visitas aos finais de semana.",
+    "dataPedido": "2026-05-18T15:30:00",
+    "statusProcesso": "APROVADO"
+  },
+  {
+    "pessoaId": 8,
+    "animalId": 2,
+    "observacoes": "Tem experiência prévia com animais de grande porte.",
+    "dataPedido": "2026-05-19T09:15:00",
+    "statusProcesso": "PENDENTE"
+  },
+  {
+    "pessoaId": 9,
+    "animalId": 1,
+    "observacoes": "Gostaria de adotar o pet o quanto antes.",
+    "dataPedido": "2026-05-19T17:40:00",
+    "statusProcesso": "PENDENTE"
+  },
+  {
+    "pessoaId": 10,
+    "animalId": 5,
+    "observacoes": "Telas instaladas e ração comprada.",
+    "dataPedido": "2026-05-20T10:00:00",
+    "statusProcesso": "PENDENTE"
+  }
+]

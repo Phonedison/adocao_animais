@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "rua": "Avenida 15 de Novembro",
+    "numero": "120",
+    "bairro": "Centro",
+    "cidade": "Petrópolis",
+    "estado": "RJ",
+    "cep": "25620-000"
+  },
+  {
+    "id": 2,
+    "rua": "Rua Teresa",
+    "numero": "1450",
+    "bairro": "Alto da Serra",
+    "cidade": "Petrópolis",
+    "estado": "RJ",
+    "cep": "25625-018"
+  },
+  {
+    "id": 3,
+    "rua": "Rua do Imperador",
+    "numero": "800",
+    "bairro": "Centro",
+    "cidade": "Petrópolis",
+    "estado": "RJ",
+    "cep": "25620-001"
+  },
+  {
+    "id": 4,
+    "rua": "Estrada União e Indústria",
+    "numero": "10200",
+    "bairro": "Itaipava",
+    "cidade": "Petrópolis",
+    "estado": "RJ",
+    "cep": "25730-735"
+  },
+  {
+    "id": 5,
+    "rua": "Rua Cristóvão Colombo",
+    "numero": "45",
+    "bairro": "Castelânea",
+    "cidade": "Petrópolis",
+    "estado": "RJ",
+    "cep": "25640-320"
+  },
+  {
+    "id": 6,
+    "rua": "Rua Bingen",
+    "numero": "300",
+    "bairro": "Bingen",
+    "cidade": "Petrópolis",
+    "estado": "RJ",
+    "cep": "25660-004"
+  },
+  {
+    "id": 7,
+    "rua": "Rua Montecaseros",
+    "numero": "210",
+    "bairro": "Retiro",
+    "cidade": "Petrópolis",
+    "estado": "RJ",
+    "cep": "25685-005"
+  },
+  {
+    "id": 8,
+    "rua": "Rua Piabanha",
+    "numero": "95",
+    "bairro": "Saldanha Marinho",
+    "cidade": "Petrópolis",
+    "estado": "RJ",
+    "cep": "25650-000"
+  },
+  {
+    "id": 9,
+    "rua": "Rua Coronel Veiga",
+    "numero": "550",
+    "bairro": "Coronel Veiga",
+    "cidade": "Petrópolis",
+    "estado": "RJ",
+    "cep": "25655-003"
+  },
+  {
+    "id": 10,
+    "rua": "Rua Mosela",
+    "numero": "1130",
+    "bairro": "Mosela",
+    "cidade": "Petrópolis",
+    "estado": "RJ",
+    "cep": "25665-430"
+  }
+]
