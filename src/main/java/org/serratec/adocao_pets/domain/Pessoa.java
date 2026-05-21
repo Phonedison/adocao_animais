@@ -1,15 +1,12 @@
 package org.serratec.adocao_pets.domain;
 
-import org.hibernate.validator.constraints.br.CPF;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -44,14 +41,14 @@ public class Pessoa {
     @Pattern(regexp = "^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$", message = "O formato do telefone é inválido (Ex: (99) 99999-9999)")
     private String telefone;
 
-    @CPF
+    // @CPF
     @NotBlank(message = "O campo não pode estar em branco")
     @Column(unique = true)
     private String cpf;
 
     // referencia a classe Endereco
     @NotNull(message = "O endereço não pode ser nulo")
-    @OneToOne(cascade = CascadeType.PERSIST) // pode ser ligação 1:1 ou N:1
+    @ManyToOne // pode ser ligação 1:1 ou N:1
     @JoinColumn(name = "endereco_id", referencedColumnName = "id") // vinculo
     private Endereco endereco;
 }
