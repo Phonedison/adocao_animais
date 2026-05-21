@@ -1,5 +1,8 @@
 package org.serratec.adocao_pets.dto.response;
 
+import org.serratec.adocao_pets.domain.Pessoa;
+import org.serratec.adocao_pets.service.EnderecoService;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.AllArgsConstructor;
@@ -25,5 +28,19 @@ public class PessoaDTOResponse {
     private String telefone;
     private String email;
     private EnderecoDTOResponse endereco;
+
+    public static PessoaDTOResponse toPessoaResponse(Pessoa pessoa) {
+        PessoaDTOResponse response = new PessoaDTOResponse();
+        response.setId(pessoa.getId());
+        response.setNome(pessoa.getNome());
+        response.setEmail(pessoa.getEmail());
+        response.setCpf(pessoa.getCpf());
+        response.setTelefone(pessoa.getTelefone());
+
+        if (pessoa.getEndereco() != null) {
+            response.setEndereco(EnderecoDTOResponse.toEnderecoResponse(pessoa.getEndereco()));
+        }
+        return response;
+    }
 
 }

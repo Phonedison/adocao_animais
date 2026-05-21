@@ -1,5 +1,7 @@
 package org.serratec.adocao_pets.dto.response;
 
+import org.serratec.adocao_pets.domain.Endereco;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.AllArgsConstructor;
@@ -27,4 +29,17 @@ public class EnderecoDTOResponse {
     private String cidade;
     private String estado;
     private String cep;
+
+    public static EnderecoDTOResponse toEnderecoResponse(Endereco endereco) {
+
+        EnderecoDTOResponse response = new EnderecoDTOResponse();
+        response.setId(endereco.getId());
+        response.setRua(endereco.getRua());
+        response.setNumero(endereco.getNumero());
+        response.setBairro(endereco.getBairro());
+        response.setCidade(endereco.getCidade());
+        response.setEstado(endereco.getEstado());
+        response.setCep(endereco.getCep());
+        return response;
+    }
 }

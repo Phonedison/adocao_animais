@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.serratec.adocao_pets.domain.InteresseAdocao;
 import org.serratec.adocao_pets.enumerated.StatusProcesso;
+import org.serratec.adocao_pets.service.AnimalService;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -34,5 +35,21 @@ public class InteresseAdocaoDTOResponse {
         this.dataPedido = interesse.getDataPedido();
         this.statusProcesso = interesse.getStatusProcesso();
         this.observacoes = interesse.getObservacoes();
+    }
+
+    public static InteresseAdocaoDTOResponse toInteresseAdocaoResponse(InteresseAdocao interesse) {
+        InteresseAdocaoDTOResponse response = new InteresseAdocaoDTOResponse();
+
+        if (interesse.getPessoa() != null)
+            response.setPessoa(PessoaDTOResponse.toPessoaResponse(interesse.getPessoa()));
+
+        if (interesse.getAnimal() != null)
+            response.setAnimal(AnimalService.toAnimalResponse(interesse.getAnimal()));
+
+        response.setDataPedido(interesse.getDataPedido());
+        response.setStatusProcesso(interesse.getStatusProcesso());
+        response.setObservacoes(interesse.getObservacoes());
+
+        return response;
     }
 }
