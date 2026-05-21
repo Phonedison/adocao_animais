@@ -4,13 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.serratec.adocao_pets.domain.Animal;
-
 import org.serratec.adocao_pets.enumerated.Especie;
 import org.serratec.adocao_pets.enumerated.Sexo;
 import org.serratec.adocao_pets.enumerated.StatusAdocao;
 import org.serratec.adocao_pets.enumerated.Tamanho;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.AllArgsConstructor;
@@ -33,7 +31,6 @@ import lombok.Setter;
         "caracteristicas",
         "statusAdocao"
 })
-@JsonInclude(JsonInclude.Include.NON_NULL) // oculta parametros informados como null
 public class AnimalDTOResponse {
     Long id;
     String nome;
@@ -87,15 +84,4 @@ public class AnimalDTOResponse {
         return response;
     }
 
-    public static AnimalDTOResponse toAnimalResponseResumo(Animal animal) {
-        AnimalDTOResponse response = new AnimalDTOResponse();
-        response.setNome(animal.getNome());
-        response.setMesesVida(animal.getMesesVida());
-        response.setEspecie(animal.getEspecie());
-        response.setTamanho(animal.getTamanho());
-        response.setSexo(animal.getSexo());
-        response.setDescricao(animal.getDescricao());
-        response.setStatusAdocao(animal.getStatusAdocao());
-        return response;
-    }
 }
