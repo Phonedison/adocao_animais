@@ -1,9 +1,6 @@
 package org.serratec.adocao_pets.service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.serratec.adocao_pets.domain.Endereco;
 import org.serratec.adocao_pets.domain.Pessoa;
@@ -29,59 +26,51 @@ public class PessoaService {
 
     @Transactional
     public List<PessoaDTOResponse> listarTodas() {
-        return repository.findAll().stream()
-                .map(PessoaDTOResponse::toPessoaResponse)
+        return repository.findAll()
+                .stream()
+                .map(pessoa -> PessoaDTOResponse.toPessoaResponse(
+                        pessoa))
                 .toList();
     }
 
     @Transactional
     public PessoaDTOResponse buscarPorId(Long id) {
         return repository.findById(id)
-                .map(PessoaDTOResponse::toPessoaResponse)
+                .map(pessoa -> PessoaDTOResponse.toPessoaResponse(pessoa))
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa com ID '" + id + "' não encontrada!"));
     }
 
+    @Transactional
     public PessoaDTOResponse salvar(PessoaDTORequest request) {
-        Endereco endereco = null;
+        Pessoa pessoa = request.toPessoa();
 
         if (request.endereco() != null && request.endereco().id() != null) {
-            endereco = enderecoRepository.findById(request.endereco().id())
-                    .orElseThrow(() -> new RuntimeException("Endereço não encontrado!"));
+            Endereco enderecoRef = enderecoRepository.getReferenceById(request.endereco().id());
+            pessoa.setEndereco(enderecoRef);
         }
 
-        Map<Long, Endereco> mapeamento = java.util.Collections.emptyMap();
-        if (endereco != null) {
-            mapeamento = java.util.Collections.singletonMap(endereco.getId(), endereco);
-        }
-
-        Pessoa pessoa = toPessoa(request, mapeamento);
-        Pessoa salva = repository.save(pessoa);
-        return toPessoaResponse(salva);
+        return PessoaDTOResponse.toPessoaResponse(repository.save(pessoa));
     }
 
-    public List<PessoaDTOResponse> salvarList(List<PessoaDTORequest> request) {
-
-        List<Long> enderecoIds = request.stream()
-                .map(p -> p.endereco() != null ? p.endereco().id() : null)
-                .filter(Objects::nonNull)
-                .distinct()
+    @Transactional
+    public List<PessoaDTOResponse> salvarList(List<PessoaDTORequest> requests) {
+        List<Pessoa> pessoas = requests.stream()
+                .map(request -> {
+                    Pessoa pessoa = request.toPessoa();
+                    if (request.endereco() != null && request.endereco().id() != null) {
+                        pessoa.setEndereco(enderecoRepository.getReferenceById(request.endereco().id()));
+                    }
+                    return pessoa;
+                })
                 .toList();
 
-        List<Endereco> enderecosSalvos = enderecoRepository.findAllById(enderecoIds);
-
-        Map<Long, Endereco> enderecoMap = enderecosSalvos
-                .stream()
-                .collect(Collectors.toMap(Endereco::getId, e -> e));
-
-        List<Pessoa> pessoas = request.stream()
-                .map(dto -> toPessoa(dto, enderecoMap))
+        return repository.saveAll(pessoas).stream()
+                .map(pessoa -> PessoaDTOResponse.toPessoaResponse(pessoa))
                 .toList();
-
-        List<Pessoa> salvo = repository.saveAll(pessoas);
-        return salvo.stream().map(PessoaService::toPessoaResponse).toList();
     }
 
-    public PessoaDTOResponse atualizar(Long id, PessoaDTORequest request) throws RecursoNaoEncontradoException {
+    @Transactional
+    public PessoaDTOResponse atualizar(Long id, PessoaDTORequest request) {
         Pessoa pessoaExistente = repository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa com ID '" + id + "' não encontrada!"));
 
@@ -93,22 +82,17 @@ public class PessoaService {
         if (request.endereco() != null) {
             EnderecoDTORequest encRequest = request.endereco();
 
-            // 🎯 Se foi enviado o ID do endereço, buscamos ele e vinculamos diretamente à
-            // pessoa
             if (encRequest.id() != null) {
                 Endereco novoEndereco = enderecoRepository.findById(encRequest.id())
-                        .orElseThrow(
-                                () -> new RuntimeException("Endereço com ID " + encRequest.id() + " não encontrado!"));
+                        .orElseThrow(() -> new RecursoNaoEncontradoException(
+                                "Endereço com ID " + encRequest.id() + " não encontrado!"));
                 pessoaExistente.setEndereco(novoEndereco);
-            }
-            // Se não foi enviado ID, mas a pessoa já tem um endereço associado, atualizamos
-            // os campos de texto dele
-            else if (pessoaExistente.getEndereco() != null) {
+            } else if (pessoaExistente.getEndereco() != null) {
                 atualizarCampos(pessoaExistente.getEndereco(), encRequest);
             }
         }
 
-        return toPessoaResponse(repository.save(pessoaExistente));
+        return PessoaDTOResponse.toPessoaResponse(repository.save(pessoaExistente));
     }
 
     private void atualizarCampos(Endereco destino, EnderecoDTORequest origem) {
