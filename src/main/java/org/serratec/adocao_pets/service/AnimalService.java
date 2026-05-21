@@ -120,7 +120,7 @@ public class AnimalService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Animal de ID '" + id + "' não encontrado!"));
 
         return animal.getCaracteristicas().stream()
-                .map(c -> new CaracteristicaDTOResponse(c.getId(), c.getDescricao()))
+                .map(c -> CaracteristicaDTOResponse.toCaracteristicaResponse(c))
                 .toList();
     }
 
