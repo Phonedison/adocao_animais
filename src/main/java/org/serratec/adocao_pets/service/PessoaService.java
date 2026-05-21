@@ -44,7 +44,7 @@ public class PessoaService {
     public PessoaDTOResponse salvar(PessoaDTORequest request) {
         Pessoa pessoa = request.toPessoa();
 
-        if (request.endereco() != null && request.endereco().id() != null) {
+        if (request.endereco().id() != null) {
             Long enderecoId = request.endereco().id();
 
             Endereco endereco = enderecoRepository.findById(enderecoId)
@@ -63,7 +63,7 @@ public class PessoaService {
         List<Pessoa> pessoas = requests.stream()
                 .map(request -> {
                     Pessoa pessoa = request.toPessoa();
-                    if (request.endereco() != null && request.endereco().id() != null) {
+                    if (request.endereco().id() != null) {
                         Long enderecoId = request.endereco().id();
 
                         Endereco endereco = enderecoRepository.findById(enderecoId)
@@ -92,17 +92,15 @@ public class PessoaService {
         pessoaExistente.setCpf(request.cpf());
         pessoaExistente.setTelefone(request.telefone());
 
-        if (request.endereco() != null) {
-            EnderecoDTORequest encRequest = request.endereco();
+        EnderecoDTORequest encRequest = request.endereco();
 
-            if (encRequest.id() != null) {
-                Endereco novoEndereco = enderecoRepository.findById(encRequest.id())
-                        .orElseThrow(() -> new RecursoNaoEncontradoException(
-                                "Endereço com ID " + encRequest.id() + " não encontrado!"));
-                pessoaExistente.setEndereco(novoEndereco);
-            } else if (pessoaExistente.getEndereco() != null) {
-                atualizarCampos(pessoaExistente.getEndereco(), encRequest);
-            }
+        if (encRequest.id() != null) {
+            Endereco novoEndereco = enderecoRepository.findById(encRequest.id())
+                    .orElseThrow(() -> new RecursoNaoEncontradoException(
+                            "Endereço com ID " + encRequest.id() + " não encontrado!"));
+            pessoaExistente.setEndereco(novoEndereco);
+        } else if (pessoaExistente.getEndereco() != null) {
+            atualizarCampos(pessoaExistente.getEndereco(), encRequest);
         }
 
         return PessoaDTOResponse.toPessoaResponse(repository.save(pessoaExistente));
