@@ -120,12 +120,23 @@ public class EnderecoService {
     public ResponseEntity<EnderecoDTOResponse> atualizar(Long id, EnderecoDTORequest request) {
         return enderecoRepository.findById(id).map(existe -> {
 
-            existe.setRua(request.rua());
-            existe.setNumero(request.numero());
-            existe.setBairro(request.bairro());
-            existe.setCidade(request.cidade());
-            existe.setEstado(request.estado());
-            existe.setCep(request.cep());
+            if (request.rua() != null && !request.rua().isBlank())
+                existe.setRua(request.rua());
+
+            if (request.numero() != null && !request.numero().isBlank())
+                existe.setNumero(request.numero());
+
+            if (request.bairro() != null && !request.bairro().isBlank())
+                existe.setBairro(request.bairro());
+
+            if (request.cidade() != null && !request.cidade().isBlank())
+                existe.setCidade(request.cidade());
+
+            if (request.estado() != null && !request.estado().isBlank())
+                existe.setEstado(request.estado());
+
+            if (request.cep() != null && !request.cep().isBlank())
+                existe.setCep(request.cep());
 
             Endereco salvo = enderecoRepository.save(existe);
             EnderecoDTOResponse response = EnderecoDTOResponse.toEnderecoResponse(salvo);
