@@ -80,7 +80,8 @@ public class CaracteristicaService {
     public ResponseEntity<CaracteristicaDTOResponse> atualizar(Long id, CaracteristicaDTORequest request) {
         return caracteristicaRepository.findById(id).map(existe -> {
 
-            existe.setDescricao(request.descricao());
+            if (request.descricao() != null && !request.descricao().isBlank())
+                existe.setDescricao(request.descricao());
 
             Caracteristica salvo = caracteristicaRepository.save(existe);
             CaracteristicaDTOResponse response = toCaracteristicaResponse(salvo);
