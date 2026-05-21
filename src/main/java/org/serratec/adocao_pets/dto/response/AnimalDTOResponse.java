@@ -9,6 +9,7 @@ import org.serratec.adocao_pets.enumerated.Sexo;
 import org.serratec.adocao_pets.enumerated.StatusAdocao;
 import org.serratec.adocao_pets.enumerated.Tamanho;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.AllArgsConstructor;
@@ -31,6 +32,7 @@ import lombok.Setter;
         "caracteristicas",
         "statusAdocao"
 })
+@JsonInclude(JsonInclude.Include.NON_NULL) // oculta parametros informados como null
 public class AnimalDTOResponse {
     Long id;
     String nome;

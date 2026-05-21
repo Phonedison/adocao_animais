@@ -6,6 +6,7 @@ import org.serratec.adocao_pets.domain.InteresseAdocao;
 import org.serratec.adocao_pets.domain.InteresseAdocaoPK;
 import org.serratec.adocao_pets.enumerated.StatusProcesso;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +26,8 @@ import lombok.Setter;
         "pessoa",
         "animal"
 })
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class InteresseAdocaoDTOResponse {
     private InteresseAdocaoPK id;
     private PessoaDTOResponse pessoa;
