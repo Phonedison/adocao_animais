@@ -137,7 +137,9 @@ public class AnimalService {
 
         Set<Long> idsSet = new HashSet<>();
         for (AnimalDTORequest r : requests) {
-            idsSet.addAll(r.caracteristicas());
+            if (r.caracteristicas() != null) {
+                idsSet.addAll(r.caracteristicas());
+            }
         }
         List<Long> ids = new ArrayList<>(idsSet);
 
@@ -147,15 +149,15 @@ public class AnimalService {
         List<Animal> animais = requests.stream()
                 .map(request -> {
                     Set<Caracteristica> caracteristicasDoAnimal = new HashSet<>();
-
-                    request.caracteristicas().forEach(id -> {
-                        Caracteristica c = mapaCaracteristicas.get(id);
-                        if (c == null)
-                            throw new RecursoNaoEncontradoException(
-                                    "Característica ID '" + id + "' não encontrada.");
-                        caracteristicasDoAnimal.add(c);
-                    });
-
+                    if (request.caracteristicas() != null) {
+                        request.caracteristicas().forEach(id -> {
+                            Caracteristica c = mapaCaracteristicas.get(id);
+                            if (c == null)
+                                throw new RecursoNaoEncontradoException(
+                                        "Característica ID '" + id + "' não encontrada.");
+                            caracteristicasDoAnimal.add(c);
+                        });
+                    }
                     return request.toAnimal(caracteristicasDoAnimal);
                 })
                 .toList();
@@ -174,17 +176,26 @@ public class AnimalService {
         if (request.nome() != null && !request.nome().isBlank())
             existe.setNome(request.nome());
 
-        if (request.mesesVida() < 0)
+        if (request.mesesVida() != null && request.mesesVida() < 0)
             existe.setMesesVida(request.mesesVida());
 
-        if (!request.descricao().isBlank())
+        if (request.descricao() != null && !request.descricao().isBlank())
             existe.setDescricao(request.descricao());
 
-        existe.setEspecie(request.especie());
-        existe.setTamanho(request.tamanho());
-        existe.setSexo(request.sexo());
-        existe.setStatusAdocao(request.statusAdocao());
-        existe.setCaracteristicas(buscarCaracteristicasPorIds(request.caracteristicas()));
+        if (request.especie() != null)
+            existe.setEspecie(request.especie());
+
+        if (request.tamanho() != null)
+            existe.setTamanho(request.tamanho());
+
+        if (request.sexo() != null)
+            existe.setSexo(request.sexo());
+
+        if (request.statusAdocao() != null)
+            existe.setStatusAdocao(request.statusAdocao());
+
+        if (request.caracteristicas() != null)
+            existe.setCaracteristicas(buscarCaracteristicasPorIds(request.caracteristicas()));
 
         return AnimalDTOResponse.toAnimalResponse(animalRepository.save(existe));
     }
