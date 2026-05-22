@@ -181,7 +181,7 @@ public class AnimalController {
                         @ApiResponse(responseCode = "404", description = "Animal não encontrado no banco para exclusão", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErroResposta.class))),
         })
         @DeleteMapping("/{id}")
-        public ResponseEntity<EnderecoDTOResponse> deletar(
+        public ResponseEntity<Void> deletar(
                         @Parameter(description = "ID do animal a ser deletado", example = "1") @PathVariable Long id)
                         throws RecursoNaoEncontradoException {
                 service.excluir(id);

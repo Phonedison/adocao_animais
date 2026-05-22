@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.serratec.adocao_pets.dto.request.CaracteristicaDTORequest;
 import org.serratec.adocao_pets.dto.response.CaracteristicaDTOResponse;
-import org.serratec.adocao_pets.dto.response.EnderecoDTOResponse;
 import org.serratec.adocao_pets.exception.ErroResposta;
 import org.serratec.adocao_pets.exception.RecursoNaoEncontradoException;
 import org.serratec.adocao_pets.service.CaracteristicaService;
@@ -120,7 +119,7 @@ public class CaracteristicaController {
                         @ApiResponse(responseCode = "404", description = "Característica não localizada para exclusão", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErroResposta.class)))
         })
         @DeleteMapping("/{id}")
-        public ResponseEntity<EnderecoDTOResponse> deletar(
+        public ResponseEntity<Void> deletar(
                         @Parameter(description = "ID da característica a ser excluída", example = "1") @PathVariable Long id)
                         throws RecursoNaoEncontradoException {
                 service.excluir(id);
